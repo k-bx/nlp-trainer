@@ -11,6 +11,7 @@ import Json.Decode as Json
 import Maybe exposing (withDefault)
 import Random
 
+
 type alias Entity =
     { id : Int
     , form : String
@@ -19,7 +20,7 @@ type alias Entity =
     , xpos : String
     , feats : String
     , head : Int
-    , deprel : List String
+    , deprel : String
     , deps : List ( Int, String )
     , misc : String
     }
@@ -29,10 +30,18 @@ type alias Sentence =
     List Entity
 
 
+type alias RelSelection =
+    { from : Int
+    , to : Int
+    , rel : String
+    }
+
+
 type alias Model =
     { sentences : Array Sentence
     , currSent : Sentence
     , posSelections : Dict Int String
+    , relSelections : List RelSelection
     , gaveUp : Bool
     }
 
@@ -43,6 +52,7 @@ init firstSentence sentences =
         (Array.fromList sentences)
         firstSentence
         Dict.empty
+        [ RelSelection 4 3 "det" ]
         False
     , Cmd.none
     )
@@ -158,9 +168,86 @@ renderEntity gaveUp ( entity, mPos ) =
     div [] divElems2
 
 
+getHead : Model -> Int -> Maybe Entity
+getHead model id =
+    List.head (List.filter (\x -> x.id == id) model.currSent)
+
+
+renderRelationEntityAnswer : Model -> Entity -> Html Msg
+renderRelationEntityAnswer model entity =
+    let
+        head =
+            getHead model entity.head
+
+        els =
+            [ text (withDefault "root" (Maybe.map .form head))
+            , text "->"
+            , text entity.deprel
+            , text "->"
+            , text entity.form
+            ]
+    in
+    ul []
+        (if model.gaveUp then
+            els
+         else
+            []
+        )
+
+
+relEmpty : String
+relEmpty =
+    "---"
+
+
+relOptions : List String
+relOptions =
+    [ relEmpty
+    , "det"
+    , "nsubj"
+    ]
+
+
+relOption : String -> Html Msg
+relOption rel =
+    option [ value rel ] [ text rel ]
+
+
+getWords : Sentence -> List String
+getWords sentence =
+    List.map .form sentence
+
+
+relWordSelection : String -> Html Msg
+relWordSelection word =
+    option [ value word ] [ text word ]
+
+
+renderWordSelection : Model -> Html Msg
+renderWordSelection model =
+    select [] (List.map relWordSelection (getWords model.currSent))
+
+
+renderRelationEntityGuess : Model -> RelSelection -> Html Msg
+renderRelationEntityGuess model relSelection =
+    ul []
+        [ renderWordSelection model
+        , select [] (List.map relOption relOptions)
+        , renderWordSelection model
+        ]
+
+
 renderRelations : Model -> Html Msg
 renderRelations model =
-    text ""
+    let
+        answers =
+            List.map (renderRelationEntityAnswer model) model.currSent
+
+        guesses =
+            List.map (renderRelationEntityGuess model) model.relSelections
+    in
+    ul [] (List.append guesses answers)
+
 
 view : Model -> Html Msg
 view model =
@@ -170,3 +257,8 @@ view model =
         , ul [] (List.map (renderEntity model.gaveUp) (List.map (\x -> ( x, Dict.get x.id model.posSelections )) model.currSent))
         , renderRelations model
         ]
+
+
+mkundefined : b -> a
+mkundefined x =
+    mkundefined x

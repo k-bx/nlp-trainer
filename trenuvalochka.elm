@@ -1,7 +1,8 @@
 module Main exposing (..)
 
-import TrenuvalochkaSentences exposing (..)
+import Html exposing (..)
 import TrenuvalochkaLib exposing (..)
+import TrenuvalochkaSentences exposing (..)
 
 
 main : Program Never Model Msg

@@ -11,7 +11,7 @@ firstSentence =
         "PRP"
         "Case=Nom|Gender=Neut|Number=Sing|Person=3|PronType=Prs"
         4
-        [ "nsubj" ]
+        "nsubj"
         [ ( 4, "nsubj" ) ]
         ""
     , Entity 2
@@ -21,7 +21,7 @@ firstSentence =
         "VBD"
         "Mood=Ind|Number=Sing|Person=3|Tense=Past|VerbForm=Fin"
         4
-        [ "cop" ]
+        "cop"
         [ ( 4, "cop" ) ]
         ""
     , Entity 3
@@ -31,7 +31,7 @@ firstSentence =
         "DT"
         "Definite=Ind|PronType=Art"
         4
-        [ "det" ]
+        "det"
         [ ( 4, "det" ) ]
         ""
     , Entity 4
@@ -41,7 +41,7 @@ firstSentence =
         "NN"
         "Number=Sing"
         0
-        [ "root" ]
+        "root"
         [ ( 0, "root" ) ]
         "SpaceAfter=No"
     , Entity 5
@@ -51,7 +51,7 @@ firstSentence =
         "."
         "_"
         4
-        [ "punct" ]
+        "punct"
         [ ( 4, "punct" ) ]
         ""
     ]
