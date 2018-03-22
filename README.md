@@ -3,6 +3,7 @@
 TODO:
 
 - [x] root relation check support
+- [ ] load more sentences in default version
 - [ ] add plus/minus buttons for rels
 - [ ] implement the dice
 - [ ] add CSS
