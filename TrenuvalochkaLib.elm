@@ -31,7 +31,8 @@ type alias Sentence =
 
 
 type alias RelSelection =
-    { from : Int
+    { id : Int
+    , from : Int
     , to : Int
     , rel : String
     }
@@ -52,7 +53,7 @@ init firstSentence sentences =
         (Array.fromList sentences)
         firstSentence
         Dict.empty
-        [ RelSelection 4 3 "det" ]
+        [ RelSelection 1 4 3 "det" ]
         False
     , Cmd.none
     )
@@ -67,6 +68,61 @@ type Msg
     | GiveUp
     | NewSentence Int
     | SetPos Int String
+    | SetFromWord Int String
+    | SetToWord Int String
+    | SetRel Int String
+
+
+getWordId : String -> Model -> Maybe Int
+getWordId word model =
+    List.head (List.map .id (List.filter (\x -> x.form == word) model.currSent))
+
+
+setFromWordRel : Int -> Int -> RelSelection -> RelSelection
+setFromWordRel relSelId wordId relSelection =
+    if relSelection.id == relSelId then
+        { relSelection | from = wordId }
+    else
+        relSelection
+
+
+setToWordRel : Int -> Int -> RelSelection -> RelSelection
+setToWordRel relSelId wordId relSelection =
+    if relSelection.id == relSelId then
+        { relSelection | to = wordId }
+    else
+        relSelection
+
+
+setRelRel : Int -> String -> RelSelection -> RelSelection
+setRelRel relSelId rel relSelection =
+    if relSelection.id == relSelId then
+        { relSelection | rel = rel }
+    else
+        relSelection
+
+
+setFromWord : Int -> Model -> String -> Model
+setFromWord relSelId model word =
+    let
+        mwordId =
+            getWordId word model
+    in
+    Maybe.withDefault model (Maybe.map (\wordId -> { model | relSelections = List.map (setFromWordRel relSelId wordId) model.relSelections }) mwordId)
+
+
+setToWord : Int -> Model -> String -> Model
+setToWord relSelId model word =
+    let
+        mwordId =
+            getWordId word model
+    in
+    Maybe.withDefault model (Maybe.map (\wordId -> { model | relSelections = List.map (setToWordRel relSelId wordId) model.relSelections }) mwordId)
+
+
+setRel : Int -> Model -> String -> Model
+setRel relSelId model rel =
+    { model | relSelections = List.map (setRelRel relSelId rel) model.relSelections }
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
@@ -88,6 +144,15 @@ update msg model =
 
         GiveUp ->
             ( { model | gaveUp = True }, Cmd.none )
+
+        SetFromWord relSelId word ->
+            ( setFromWord relSelId model word, Cmd.none )
+
+        SetToWord relSelId word ->
+            ( setToWord relSelId model word, Cmd.none )
+
+        SetRel relSelId rel ->
+            ( setRel relSelId model rel, Cmd.none )
 
 
 
@@ -195,14 +260,14 @@ renderRelationEntityAnswer model entity =
         )
 
 
-relEmpty : String
-relEmpty =
-    "---"
+relRoot : String
+relRoot =
+    "root"
 
 
 relOptions : List String
 relOptions =
-    [ relEmpty
+    [ relRoot
     , "det"
     , "nsubj"
     ]
@@ -223,17 +288,36 @@ relWordSelection word =
     option [ value word ] [ text word ]
 
 
-renderWordSelection : Model -> Html Msg
-renderWordSelection model =
-    select [] (List.map relWordSelection (getWords model.currSent))
+renderWordSelection : (Int -> String -> Msg) -> RelSelection -> Model -> Html Msg
+renderWordSelection ev relSelection model =
+    select [ on "change" (Json.map (ev relSelection.id) targetValue) ] (List.map relWordSelection (getWords model.currSent))
+
+
+findRel : Sentence -> RelSelection -> Bool
+findRel sent rs =
+    let
+        f x =
+            x.head == rs.from && x.id == rs.to && x.deprel == rs.rel
+    in
+    Maybe.withDefault False (Maybe.map (const True) (List.head (List.filter f sent)))
 
 
 renderRelationEntityGuess : Model -> RelSelection -> Html Msg
 renderRelationEntityGuess model relSelection =
+    let
+        ( color, message ) =
+            case findRel model.currSent relSelection of
+                False ->
+                    ( "red", "nada" )
+
+                True ->
+                    ( "green", "aha" )
+    in
     ul []
-        [ renderWordSelection model
+        [ renderWordSelection SetFromWord relSelection model
         , select [] (List.map relOption relOptions)
-        , renderWordSelection model
+        , renderWordSelection SetToWord relSelection model
+        , span [ style [ ( "color", color ) ] ] [ text message ]
         ]
 
 
@@ -252,7 +336,8 @@ renderRelations model =
 view : Model -> Html Msg
 view model =
     div []
-        [ button [ onClick Roll ] [ text "Roll" ]
+        [ h1 [] [ text "Welcome to Trenuvalochka" ]
+        , button [ onClick Roll ] [ text "Roll" ]
         , button [ onClick GiveUp ] [ text "I give up" ]
         , ul [] (List.map (renderEntity model.gaveUp) (List.map (\x -> ( x, Dict.get x.id model.posSelections )) model.currSent))
         , renderRelations model
@@ -262,3 +347,8 @@ view model =
 mkundefined : b -> a
 mkundefined x =
     mkundefined x
+
+
+const : a -> b -> a
+const x y =
+    x
