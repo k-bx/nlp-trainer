@@ -2,7 +2,7 @@
 
 TODO:
 
-- [ ] root relation check support
+- [x] root relation check support
 - [ ] add plus/minus buttons for rels
 - [ ] implement the dice
 - [ ] add CSS

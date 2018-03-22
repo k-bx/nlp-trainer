@@ -53,7 +53,8 @@ init firstSentence sentences =
         (Array.fromList sentences)
         firstSentence
         Dict.empty
-        [ RelSelection 1 4 3 "det" ]
+        [ RelSelection 1 0 0 "---" ]
+        -- [ RelSelection 1 4 3 "det" ]
         False
     , Cmd.none
     )
@@ -75,7 +76,10 @@ type Msg
 
 getWordId : String -> Model -> Maybe Int
 getWordId word model =
-    List.head (List.map .id (List.filter (\x -> x.form == word) model.currSent))
+    if word == "(root)" then
+        Just 0
+    else
+        List.head (List.map .id (List.filter (\x -> x.form == word) model.currSent))
 
 
 setFromWordRel : Int -> Int -> RelSelection -> RelSelection
@@ -260,14 +264,10 @@ renderRelationEntityAnswer model entity =
         )
 
 
-relRoot : String
-relRoot =
-    "root"
-
-
 relOptions : List String
 relOptions =
-    [ relRoot
+    [ "---"
+    , "root"
     , "det"
     , "nsubj"
     ]
@@ -290,7 +290,7 @@ relWordSelection word =
 
 renderWordSelection : (Int -> String -> Msg) -> RelSelection -> Model -> Html Msg
 renderWordSelection ev relSelection model =
-    select [ on "change" (Json.map (ev relSelection.id) targetValue) ] (List.map relWordSelection (getWords model.currSent))
+    select [ on "change" (Json.map (ev relSelection.id) targetValue) ] (List.map relWordSelection ("---" :: "(root)" :: getWords model.currSent))
 
 
 findRel : Sentence -> RelSelection -> Bool
@@ -315,7 +315,7 @@ renderRelationEntityGuess model relSelection =
     in
     ul []
         [ renderWordSelection SetFromWord relSelection model
-        , select [] (List.map relOption relOptions)
+        , select [ on "change" (Json.map (SetRel relSelection.id) targetValue) ] (List.map relOption relOptions)
         , renderWordSelection SetToWord relSelection model
         , span [ style [ ( "color", color ) ] ] [ text message ]
         ]
