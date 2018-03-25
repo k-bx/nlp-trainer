@@ -1,0 +1,20 @@
+name:                ud-conll-extractor
+version:             0.1.0.0
+#synopsis:
+#description:
+homepage:            https://github.com/k-bx/ud-conll-extractor#readme
+license:             BSD3
+author:              Kostiantyn Rybnikov
+maintainer:          k-bx@k-bx.com
+copyright:           All Rights Reserved
+category:            Unclassified
+extra-source-files:
+- README.md
+
+dependencies:
+  - base >= 4.7 && < 5
+
+executables:
+  ud-conll-extractor:
+    source-dirs:      src
+    main:             Main.hs
