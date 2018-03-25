@@ -148,6 +148,15 @@ newSent sentenceId model =
             model
 
 
+getNewRelSelectionId : Model -> Int
+getNewRelSelectionId model =
+    Maybe.withDefault 0 (List.maximum (List.map .id model.relSelections)) + 1
+
+addRelGuess : Model -> Model
+addRelGuess model =
+    let newId = getNewRelSelectionId model
+    in {model | relSelections = List.append model.relSelections [RelSelection newId 0 0 "---"] }
+
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
@@ -173,7 +182,7 @@ update msg model =
             ( setRel relSelId model rel, Cmd.none )
 
         AddRelationGuess ->
-            ( model, Cmd.none )
+            ( addRelGuess model, Cmd.none )
 
 
 
