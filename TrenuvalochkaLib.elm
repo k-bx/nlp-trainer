@@ -73,6 +73,7 @@ type Msg
     | SetToWord Int String
     | SetRel Int String
     | AddRelationGuess
+    | RemoveRelationGuess Int
 
 
 getWordId : String -> Model -> Maybe Int
@@ -152,10 +153,20 @@ getNewRelSelectionId : Model -> Int
 getNewRelSelectionId model =
     Maybe.withDefault 0 (List.maximum (List.map .id model.relSelections)) + 1
 
+
 addRelGuess : Model -> Model
 addRelGuess model =
-    let newId = getNewRelSelectionId model
-    in {model | relSelections = List.append model.relSelections [RelSelection newId 0 0 "---"] }
+    let
+        newId =
+            getNewRelSelectionId model
+    in
+    { model | relSelections = List.append model.relSelections [ RelSelection newId 0 0 "---" ] }
+
+
+removeRelGuess : Int -> Model -> Model
+removeRelGuess relSelId model =
+    { model | relSelections = List.filter (\x -> x.id /= relSelId) model.relSelections }
+
 
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
@@ -183,6 +194,9 @@ update msg model =
 
         AddRelationGuess ->
             ( addRelGuess model, Cmd.none )
+
+        RemoveRelationGuess relSelId ->
+            ( removeRelGuess relSelId model, Cmd.none )
 
 
 
@@ -333,9 +347,16 @@ relOptions =
     ]
 
 
-relOption : String -> Html Msg
-relOption rel =
-    option [ value rel ] [ text rel ]
+relOption : String -> String -> Html Msg
+relOption sel rel =
+    let
+        opts =
+            if sel == rel then
+                [ selected True, value rel ]
+            else
+                [ value rel ]
+    in
+    option opts [ text rel ]
 
 
 getWords : Sentence -> List String
@@ -343,14 +364,22 @@ getWords sentence =
     List.map .form sentence
 
 
-relWordSelection : String -> Html Msg
-relWordSelection word =
-    option [ value word ] [ text word ]
+relWordSelection : String -> String -> Html Msg
+relWordSelection currVal word =
+    let
+        opts =
+            if currVal == word then
+                [ selected True, value word ]
+            else
+                [ value word ]
+    in
+    option opts [ text word ]
 
 
-renderWordSelection : (Int -> String -> Msg) -> RelSelection -> Model -> Html Msg
-renderWordSelection ev relSelection model =
-    select [ on "change" (Json.map (ev relSelection.id) targetValue) ] (List.map relWordSelection ("---" :: "(root)" :: getWords model.currSent))
+renderWordSelection : (Int -> String -> Msg) -> RelSelection -> String -> Model -> Html Msg
+renderWordSelection ev relSelection currVal model =
+    select [ on "change" (Json.map (ev relSelection.id) targetValue) ]
+        (List.map (relWordSelection currVal) ("---" :: "(root)" :: getWords model.currSent))
 
 
 findRel : Sentence -> RelSelection -> Bool
@@ -360,6 +389,15 @@ findRel sent rs =
             x.head == rs.from && x.id == rs.to && x.deprel == rs.rel
     in
     Maybe.withDefault False (Maybe.map (const True) (List.head (List.filter f sent)))
+
+
+findFromWord : Model -> Int -> String
+findFromWord model fromId =
+    Maybe.withDefault "" (List.head (List.map .form (List.filter (\x -> x.id == fromId) model.currSent)))
+
+findToWord : Model -> Int -> String
+findToWord model toId = 
+    Maybe.withDefault "" (List.head (List.map .form (List.filter (\x -> x.id == toId) model.currSent)))
 
 
 renderRelationEntityGuess : Model -> RelSelection -> Html Msg
@@ -374,9 +412,10 @@ renderRelationEntityGuess model relSelection =
                     ( "green", "aha" )
     in
     ul []
-        [ renderWordSelection SetFromWord relSelection model
-        , select [ on "change" (Json.map (SetRel relSelection.id) targetValue) ] (List.map relOption relOptions)
-        , renderWordSelection SetToWord relSelection model
+        [ renderWordSelection SetFromWord relSelection (findFromWord model relSelection.from) model
+        , select [ on "change" (Json.map (SetRel relSelection.id) targetValue) ] (List.map (relOption relSelection.rel) relOptions)
+        , renderWordSelection SetToWord relSelection (findToWord model relSelection.to) model
+        , button [ onClick (RemoveRelationGuess relSelection.id) ] [ text "-" ]
         , span [ style [ ( "color", color ) ] ] [ text message ]
         ]
 
