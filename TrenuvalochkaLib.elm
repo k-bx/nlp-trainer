@@ -72,6 +72,7 @@ type Msg
     | SetFromWord Int String
     | SetToWord Int String
     | SetRel Int String
+    | AddRelationGuess
 
 
 getWordId : String -> Model -> Maybe Int
@@ -129,19 +130,32 @@ setRel relSelId model rel =
     { model | relSelections = List.map (setRelRel relSelId rel) model.relSelections }
 
 
+genRand : Model -> Cmd Msg
+genRand model =
+    Random.generate NewSentence
+        (Random.int 0
+            (Array.length model.sentences - 1)
+        )
+
+
+newSent : Int -> Model -> Model
+newSent sentenceId model =
+    case Array.get sentenceId model.sentences of
+        Just s ->
+            { model | currSent = s }
+
+        Nothing ->
+            model
+
+
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
         Roll ->
-            ( model, Random.generate NewSentence (Random.int 0 (Array.length model.sentences - 1)) )
+            ( model, genRand model )
 
         NewSentence sentenceId ->
-            case Array.get sentenceId model.sentences of
-                Just s ->
-                    ( { model | currSent = s }, Cmd.none )
-
-                Nothing ->
-                    ( model, Cmd.none )
+            ( newSent sentenceId model, Cmd.none )
 
         SetPos id val ->
             ( { model | posSelections = Dict.insert id val model.posSelections }, Cmd.none )
@@ -157,6 +171,9 @@ update msg model =
 
         SetRel relSelId rel ->
             ( setRel relSelId model rel, Cmd.none )
+
+        AddRelationGuess ->
+            ( model, Cmd.none )
 
 
 
@@ -361,10 +378,13 @@ renderRelations model =
         answers =
             List.map (renderRelationEntityAnswer model) model.currSent
 
+        addNew =
+            button [ onClick AddRelationGuess ] [ text "+" ]
+
         guesses =
             List.map (renderRelationEntityGuess model) model.relSelections
     in
-    ul [] (List.append guesses answers)
+    ul [] (List.append guesses (addNew :: answers))
 
 
 view : Model -> Html Msg
