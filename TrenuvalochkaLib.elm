@@ -172,7 +172,7 @@ update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
         Roll ->
-            ( model, genRand model )
+            ( { model | gaveUp = False }, genRand model )
 
         NewSentence sentenceId ->
             ( newSent sentenceId model, Cmd.none )
@@ -395,8 +395,9 @@ findFromWord : Model -> Int -> String
 findFromWord model fromId =
     Maybe.withDefault "" (List.head (List.map .form (List.filter (\x -> x.id == fromId) model.currSent)))
 
+
 findToWord : Model -> Int -> String
-findToWord model toId = 
+findToWord model toId =
     Maybe.withDefault "" (List.head (List.map .form (List.filter (\x -> x.id == toId) model.currSent)))
 
 

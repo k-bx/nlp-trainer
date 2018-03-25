@@ -2,7 +2,7 @@
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 649131cbf6559c783ff285f07bb72ce2042442b253f9894b9f567974c5ce4f88
+-- hash: ec4f66633fab77b49e99caad458a965f40d30b661d277192b99987f0f1e5b790
 
 name:           ud-conll-extractor
 version:        0.1.0.0
@@ -25,6 +25,8 @@ executable ud-conll-extractor
       src
   build-depends:
       base >=4.7 && <5
+    , hs-conllu
+    , text
   other-modules:
       Paths_ud_conll_extractor
   default-language: Haskell2010
