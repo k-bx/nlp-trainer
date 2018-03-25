@@ -9030,6 +9030,42 @@ var _k_bx$nlp_trainer$TrenuvalochkaLib$mkundefined = function (x) {
 		continue mkundefined;
 	}
 };
+var _k_bx$nlp_trainer$TrenuvalochkaLib$findToWord = F2(
+	function (model, toId) {
+		return A2(
+			_elm_lang$core$Maybe$withDefault,
+			'',
+			_elm_lang$core$List$head(
+				A2(
+					_elm_lang$core$List$map,
+					function (_) {
+						return _.form;
+					},
+					A2(
+						_elm_lang$core$List$filter,
+						function (x) {
+							return _elm_lang$core$Native_Utils.eq(x.id, toId);
+						},
+						model.currSent))));
+	});
+var _k_bx$nlp_trainer$TrenuvalochkaLib$findFromWord = F2(
+	function (model, fromId) {
+		return A2(
+			_elm_lang$core$Maybe$withDefault,
+			'',
+			_elm_lang$core$List$head(
+				A2(
+					_elm_lang$core$List$map,
+					function (_) {
+						return _.form;
+					},
+					A2(
+						_elm_lang$core$List$filter,
+						function (x) {
+							return _elm_lang$core$Native_Utils.eq(x.id, fromId);
+						},
+						model.currSent))));
+	});
 var _k_bx$nlp_trainer$TrenuvalochkaLib$findRel = F2(
 	function (sent, rs) {
 		var f = function (x) {
@@ -9044,20 +9080,30 @@ var _k_bx$nlp_trainer$TrenuvalochkaLib$findRel = F2(
 				_elm_lang$core$List$head(
 					A2(_elm_lang$core$List$filter, f, sent))));
 	});
-var _k_bx$nlp_trainer$TrenuvalochkaLib$relWordSelection = function (word) {
-	return A2(
-		_elm_lang$html$Html$option,
-		{
+var _k_bx$nlp_trainer$TrenuvalochkaLib$relWordSelection = F2(
+	function (currVal, word) {
+		var opts = _elm_lang$core$Native_Utils.eq(currVal, word) ? {
+			ctor: '::',
+			_0: _elm_lang$html$Html_Attributes$selected(true),
+			_1: {
+				ctor: '::',
+				_0: _elm_lang$html$Html_Attributes$value(word),
+				_1: {ctor: '[]'}
+			}
+		} : {
 			ctor: '::',
 			_0: _elm_lang$html$Html_Attributes$value(word),
 			_1: {ctor: '[]'}
-		},
-		{
-			ctor: '::',
-			_0: _elm_lang$html$Html$text(word),
-			_1: {ctor: '[]'}
-		});
-};
+		};
+		return A2(
+			_elm_lang$html$Html$option,
+			opts,
+			{
+				ctor: '::',
+				_0: _elm_lang$html$Html$text(word),
+				_1: {ctor: '[]'}
+			});
+	});
 var _k_bx$nlp_trainer$TrenuvalochkaLib$getWords = function (sentence) {
 	return A2(
 		_elm_lang$core$List$map,
@@ -9066,8 +9112,8 @@ var _k_bx$nlp_trainer$TrenuvalochkaLib$getWords = function (sentence) {
 		},
 		sentence);
 };
-var _k_bx$nlp_trainer$TrenuvalochkaLib$renderWordSelection = F3(
-	function (ev, relSelection, model) {
+var _k_bx$nlp_trainer$TrenuvalochkaLib$renderWordSelection = F4(
+	function (ev, relSelection, currVal, model) {
 		return A2(
 			_elm_lang$html$Html$select,
 			{
@@ -9083,7 +9129,7 @@ var _k_bx$nlp_trainer$TrenuvalochkaLib$renderWordSelection = F3(
 			},
 			A2(
 				_elm_lang$core$List$map,
-				_k_bx$nlp_trainer$TrenuvalochkaLib$relWordSelection,
+				_k_bx$nlp_trainer$TrenuvalochkaLib$relWordSelection(currVal),
 				{
 					ctor: '::',
 					_0: '---',
@@ -9094,20 +9140,30 @@ var _k_bx$nlp_trainer$TrenuvalochkaLib$renderWordSelection = F3(
 					}
 				}));
 	});
-var _k_bx$nlp_trainer$TrenuvalochkaLib$relOption = function (rel) {
-	return A2(
-		_elm_lang$html$Html$option,
-		{
+var _k_bx$nlp_trainer$TrenuvalochkaLib$relOption = F2(
+	function (sel, rel) {
+		var opts = _elm_lang$core$Native_Utils.eq(sel, rel) ? {
+			ctor: '::',
+			_0: _elm_lang$html$Html_Attributes$selected(true),
+			_1: {
+				ctor: '::',
+				_0: _elm_lang$html$Html_Attributes$value(rel),
+				_1: {ctor: '[]'}
+			}
+		} : {
 			ctor: '::',
 			_0: _elm_lang$html$Html_Attributes$value(rel),
 			_1: {ctor: '[]'}
-		},
-		{
-			ctor: '::',
-			_0: _elm_lang$html$Html$text(rel),
-			_1: {ctor: '[]'}
-		});
-};
+		};
+		return A2(
+			_elm_lang$html$Html$option,
+			opts,
+			{
+				ctor: '::',
+				_0: _elm_lang$html$Html$text(rel),
+				_1: {ctor: '[]'}
+			});
+	});
 var _k_bx$nlp_trainer$TrenuvalochkaLib$relOptions = {
 	ctor: '::',
 	_0: '---',
@@ -9400,6 +9456,42 @@ var _k_bx$nlp_trainer$TrenuvalochkaLib$posOptions = {
 var _k_bx$nlp_trainer$TrenuvalochkaLib$subscriptions = function (model) {
 	return _elm_lang$core$Platform_Sub$none;
 };
+var _k_bx$nlp_trainer$TrenuvalochkaLib$removeRelGuess = F2(
+	function (relSelId, model) {
+		return _elm_lang$core$Native_Utils.update(
+			model,
+			{
+				relSelections: A2(
+					_elm_lang$core$List$filter,
+					function (x) {
+						return !_elm_lang$core$Native_Utils.eq(x.id, relSelId);
+					},
+					model.relSelections)
+			});
+	});
+var _k_bx$nlp_trainer$TrenuvalochkaLib$getNewRelSelectionId = function (model) {
+	return A2(
+		_elm_lang$core$Maybe$withDefault,
+		0,
+		_elm_lang$core$List$maximum(
+			A2(
+				_elm_lang$core$List$map,
+				function (_) {
+					return _.id;
+				},
+				model.relSelections))) + 1;
+};
+var _k_bx$nlp_trainer$TrenuvalochkaLib$newSent = F2(
+	function (sentenceId, model) {
+		var _p0 = A2(_elm_lang$core$Array$get, sentenceId, model.sentences);
+		if (_p0.ctor === 'Just') {
+			return _elm_lang$core$Native_Utils.update(
+				model,
+				{currSent: _p0._0});
+		} else {
+			return model;
+		}
+	});
 var _k_bx$nlp_trainer$TrenuvalochkaLib$setRelRel = F3(
 	function (relSelId, rel, relSelection) {
 		return _elm_lang$core$Native_Utils.eq(relSelection.id, relSelId) ? _elm_lang$core$Native_Utils.update(
@@ -9509,6 +9601,21 @@ var _k_bx$nlp_trainer$TrenuvalochkaLib$RelSelection = F4(
 	function (a, b, c, d) {
 		return {id: a, from: b, to: c, rel: d};
 	});
+var _k_bx$nlp_trainer$TrenuvalochkaLib$addRelGuess = function (model) {
+	var newId = _k_bx$nlp_trainer$TrenuvalochkaLib$getNewRelSelectionId(model);
+	return _elm_lang$core$Native_Utils.update(
+		model,
+		{
+			relSelections: A2(
+				_elm_lang$core$List$append,
+				model.relSelections,
+				{
+					ctor: '::',
+					_0: A4(_k_bx$nlp_trainer$TrenuvalochkaLib$RelSelection, newId, 0, 0, '---'),
+					_1: {ctor: '[]'}
+				})
+		});
+};
 var _k_bx$nlp_trainer$TrenuvalochkaLib$Model = F5(
 	function (a, b, c, d, e) {
 		return {sentences: a, currSent: b, posSelections: c, relSelections: d, gaveUp: e};
@@ -9531,6 +9638,10 @@ var _k_bx$nlp_trainer$TrenuvalochkaLib$init = F2(
 			_1: _elm_lang$core$Platform_Cmd$none
 		};
 	});
+var _k_bx$nlp_trainer$TrenuvalochkaLib$RemoveRelationGuess = function (a) {
+	return {ctor: 'RemoveRelationGuess', _0: a};
+};
+var _k_bx$nlp_trainer$TrenuvalochkaLib$AddRelationGuess = {ctor: 'AddRelationGuess'};
 var _k_bx$nlp_trainer$TrenuvalochkaLib$SetRel = F2(
 	function (a, b) {
 		return {ctor: 'SetRel', _0: a, _1: b};
@@ -9545,22 +9656,27 @@ var _k_bx$nlp_trainer$TrenuvalochkaLib$SetFromWord = F2(
 	});
 var _k_bx$nlp_trainer$TrenuvalochkaLib$renderRelationEntityGuess = F2(
 	function (model, relSelection) {
-		var _p0 = function () {
-			var _p1 = A2(_k_bx$nlp_trainer$TrenuvalochkaLib$findRel, model.currSent, relSelection);
-			if (_p1 === false) {
+		var _p1 = function () {
+			var _p2 = A2(_k_bx$nlp_trainer$TrenuvalochkaLib$findRel, model.currSent, relSelection);
+			if (_p2 === false) {
 				return {ctor: '_Tuple2', _0: 'red', _1: 'nada'};
 			} else {
 				return {ctor: '_Tuple2', _0: 'green', _1: 'aha'};
 			}
 		}();
-		var color = _p0._0;
-		var message = _p0._1;
+		var color = _p1._0;
+		var message = _p1._1;
 		return A2(
 			_elm_lang$html$Html$ul,
 			{ctor: '[]'},
 			{
 				ctor: '::',
-				_0: A3(_k_bx$nlp_trainer$TrenuvalochkaLib$renderWordSelection, _k_bx$nlp_trainer$TrenuvalochkaLib$SetFromWord, relSelection, model),
+				_0: A4(
+					_k_bx$nlp_trainer$TrenuvalochkaLib$renderWordSelection,
+					_k_bx$nlp_trainer$TrenuvalochkaLib$SetFromWord,
+					relSelection,
+					A2(_k_bx$nlp_trainer$TrenuvalochkaLib$findFromWord, model, relSelection.from),
+					model),
 				_1: {
 					ctor: '::',
 					_0: A2(
@@ -9576,30 +9692,54 @@ var _k_bx$nlp_trainer$TrenuvalochkaLib$renderRelationEntityGuess = F2(
 									_elm_lang$html$Html_Events$targetValue)),
 							_1: {ctor: '[]'}
 						},
-						A2(_elm_lang$core$List$map, _k_bx$nlp_trainer$TrenuvalochkaLib$relOption, _k_bx$nlp_trainer$TrenuvalochkaLib$relOptions)),
+						A2(
+							_elm_lang$core$List$map,
+							_k_bx$nlp_trainer$TrenuvalochkaLib$relOption(relSelection.rel),
+							_k_bx$nlp_trainer$TrenuvalochkaLib$relOptions)),
 					_1: {
 						ctor: '::',
-						_0: A3(_k_bx$nlp_trainer$TrenuvalochkaLib$renderWordSelection, _k_bx$nlp_trainer$TrenuvalochkaLib$SetToWord, relSelection, model),
+						_0: A4(
+							_k_bx$nlp_trainer$TrenuvalochkaLib$renderWordSelection,
+							_k_bx$nlp_trainer$TrenuvalochkaLib$SetToWord,
+							relSelection,
+							A2(_k_bx$nlp_trainer$TrenuvalochkaLib$findToWord, model, relSelection.to),
+							model),
 						_1: {
 							ctor: '::',
 							_0: A2(
-								_elm_lang$html$Html$span,
+								_elm_lang$html$Html$button,
 								{
 									ctor: '::',
-									_0: _elm_lang$html$Html_Attributes$style(
-										{
-											ctor: '::',
-											_0: {ctor: '_Tuple2', _0: 'color', _1: color},
-											_1: {ctor: '[]'}
-										}),
+									_0: _elm_lang$html$Html_Events$onClick(
+										_k_bx$nlp_trainer$TrenuvalochkaLib$RemoveRelationGuess(relSelection.id)),
 									_1: {ctor: '[]'}
 								},
 								{
 									ctor: '::',
-									_0: _elm_lang$html$Html$text(message),
+									_0: _elm_lang$html$Html$text('-'),
 									_1: {ctor: '[]'}
 								}),
-							_1: {ctor: '[]'}
+							_1: {
+								ctor: '::',
+								_0: A2(
+									_elm_lang$html$Html$span,
+									{
+										ctor: '::',
+										_0: _elm_lang$html$Html_Attributes$style(
+											{
+												ctor: '::',
+												_0: {ctor: '_Tuple2', _0: 'color', _1: color},
+												_1: {ctor: '[]'}
+											}),
+										_1: {ctor: '[]'}
+									},
+									{
+										ctor: '::',
+										_0: _elm_lang$html$Html$text(message),
+										_1: {ctor: '[]'}
+									}),
+								_1: {ctor: '[]'}
+							}
 						}
 					}
 				}
@@ -9610,6 +9750,18 @@ var _k_bx$nlp_trainer$TrenuvalochkaLib$renderRelations = function (model) {
 		_elm_lang$core$List$map,
 		_k_bx$nlp_trainer$TrenuvalochkaLib$renderRelationEntityGuess(model),
 		model.relSelections);
+	var addNew = A2(
+		_elm_lang$html$Html$button,
+		{
+			ctor: '::',
+			_0: _elm_lang$html$Html_Events$onClick(_k_bx$nlp_trainer$TrenuvalochkaLib$AddRelationGuess),
+			_1: {ctor: '[]'}
+		},
+		{
+			ctor: '::',
+			_0: _elm_lang$html$Html$text('+'),
+			_1: {ctor: '[]'}
+		});
 	var answers = A2(
 		_elm_lang$core$List$map,
 		_k_bx$nlp_trainer$TrenuvalochkaLib$renderRelationEntityAnswer(model),
@@ -9617,34 +9769,37 @@ var _k_bx$nlp_trainer$TrenuvalochkaLib$renderRelations = function (model) {
 	return A2(
 		_elm_lang$html$Html$ul,
 		{ctor: '[]'},
-		A2(_elm_lang$core$List$append, guesses, answers));
+		A2(
+			_elm_lang$core$List$append,
+			guesses,
+			{ctor: '::', _0: addNew, _1: answers}));
 };
 var _k_bx$nlp_trainer$TrenuvalochkaLib$SetPos = F2(
 	function (a, b) {
 		return {ctor: 'SetPos', _0: a, _1: b};
 	});
 var _k_bx$nlp_trainer$TrenuvalochkaLib$renderEntity = F2(
-	function (gaveUp, _p2) {
-		var _p3 = _p2;
-		var _p6 = _p3._0;
+	function (gaveUp, _p3) {
+		var _p4 = _p3;
+		var _p7 = _p4._0;
 		var answer = {
 			ctor: '::',
-			_0: _elm_lang$html$Html$text(_p6.upos),
+			_0: _elm_lang$html$Html$text(_p7.upos),
 			_1: {ctor: '[]'}
 		};
-		var _p4 = function () {
-			var _p5 = _p3._1;
-			if (_p5.ctor === 'Nothing') {
+		var _p5 = function () {
+			var _p6 = _p4._1;
+			if (_p6.ctor === 'Nothing') {
 				return {ctor: '_Tuple2', _0: 'grey', _1: ''};
 			} else {
-				return _elm_lang$core$Native_Utils.eq(_p5._0, _p6.upos) ? {ctor: '_Tuple2', _0: 'green', _1: 'yup'} : {ctor: '_Tuple2', _0: 'red', _1: 'nope'};
+				return _elm_lang$core$Native_Utils.eq(_p6._0, _p7.upos) ? {ctor: '_Tuple2', _0: 'green', _1: 'yup'} : {ctor: '_Tuple2', _0: 'red', _1: 'nope'};
 			}
 		}();
-		var color = _p4._0;
-		var message = _p4._1;
+		var color = _p5._0;
+		var message = _p5._1;
 		var divElems = {
 			ctor: '::',
-			_0: _elm_lang$html$Html$text(_p6.form),
+			_0: _elm_lang$html$Html$text(_p7.form),
 			_1: {
 				ctor: '::',
 				_0: A2(
@@ -9656,7 +9811,7 @@ var _k_bx$nlp_trainer$TrenuvalochkaLib$renderEntity = F2(
 							'change',
 							A2(
 								_elm_lang$core$Json_Decode$map,
-								_k_bx$nlp_trainer$TrenuvalochkaLib$SetPos(_p6.id),
+								_k_bx$nlp_trainer$TrenuvalochkaLib$SetPos(_p7.id),
 								_elm_lang$html$Html_Events$targetValue)),
 						_1: {ctor: '[]'}
 					},
@@ -9693,42 +9848,38 @@ var _k_bx$nlp_trainer$TrenuvalochkaLib$renderEntity = F2(
 var _k_bx$nlp_trainer$TrenuvalochkaLib$NewSentence = function (a) {
 	return {ctor: 'NewSentence', _0: a};
 };
+var _k_bx$nlp_trainer$TrenuvalochkaLib$genRand = function (model) {
+	return A2(
+		_elm_lang$core$Random$generate,
+		_k_bx$nlp_trainer$TrenuvalochkaLib$NewSentence,
+		A2(
+			_elm_lang$core$Random$int,
+			0,
+			_elm_lang$core$Array$length(model.sentences) - 1));
+};
 var _k_bx$nlp_trainer$TrenuvalochkaLib$update = F2(
 	function (msg, model) {
-		var _p7 = msg;
-		switch (_p7.ctor) {
+		var _p8 = msg;
+		switch (_p8.ctor) {
 			case 'Roll':
 				return {
 					ctor: '_Tuple2',
 					_0: model,
-					_1: A2(
-						_elm_lang$core$Random$generate,
-						_k_bx$nlp_trainer$TrenuvalochkaLib$NewSentence,
-						A2(
-							_elm_lang$core$Random$int,
-							0,
-							_elm_lang$core$Array$length(model.sentences) - 1))
+					_1: _k_bx$nlp_trainer$TrenuvalochkaLib$genRand(model)
 				};
 			case 'NewSentence':
-				var _p8 = A2(_elm_lang$core$Array$get, _p7._0, model.sentences);
-				if (_p8.ctor === 'Just') {
-					return {
-						ctor: '_Tuple2',
-						_0: _elm_lang$core$Native_Utils.update(
-							model,
-							{currSent: _p8._0}),
-						_1: _elm_lang$core$Platform_Cmd$none
-					};
-				} else {
-					return {ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none};
-				}
+				return {
+					ctor: '_Tuple2',
+					_0: A2(_k_bx$nlp_trainer$TrenuvalochkaLib$newSent, _p8._0, model),
+					_1: _elm_lang$core$Platform_Cmd$none
+				};
 			case 'SetPos':
 				return {
 					ctor: '_Tuple2',
 					_0: _elm_lang$core$Native_Utils.update(
 						model,
 						{
-							posSelections: A3(_elm_lang$core$Dict$insert, _p7._0, _p7._1, model.posSelections)
+							posSelections: A3(_elm_lang$core$Dict$insert, _p8._0, _p8._1, model.posSelections)
 						}),
 					_1: _elm_lang$core$Platform_Cmd$none
 				};
@@ -9743,19 +9894,31 @@ var _k_bx$nlp_trainer$TrenuvalochkaLib$update = F2(
 			case 'SetFromWord':
 				return {
 					ctor: '_Tuple2',
-					_0: A3(_k_bx$nlp_trainer$TrenuvalochkaLib$setFromWord, _p7._0, model, _p7._1),
+					_0: A3(_k_bx$nlp_trainer$TrenuvalochkaLib$setFromWord, _p8._0, model, _p8._1),
 					_1: _elm_lang$core$Platform_Cmd$none
 				};
 			case 'SetToWord':
 				return {
 					ctor: '_Tuple2',
-					_0: A3(_k_bx$nlp_trainer$TrenuvalochkaLib$setToWord, _p7._0, model, _p7._1),
+					_0: A3(_k_bx$nlp_trainer$TrenuvalochkaLib$setToWord, _p8._0, model, _p8._1),
+					_1: _elm_lang$core$Platform_Cmd$none
+				};
+			case 'SetRel':
+				return {
+					ctor: '_Tuple2',
+					_0: A3(_k_bx$nlp_trainer$TrenuvalochkaLib$setRel, _p8._0, model, _p8._1),
+					_1: _elm_lang$core$Platform_Cmd$none
+				};
+			case 'AddRelationGuess':
+				return {
+					ctor: '_Tuple2',
+					_0: _k_bx$nlp_trainer$TrenuvalochkaLib$addRelGuess(model),
 					_1: _elm_lang$core$Platform_Cmd$none
 				};
 			default:
 				return {
 					ctor: '_Tuple2',
-					_0: A3(_k_bx$nlp_trainer$TrenuvalochkaLib$setRel, _p7._0, model, _p7._1),
+					_0: A2(_k_bx$nlp_trainer$TrenuvalochkaLib$removeRelGuess, _p8._0, model),
 					_1: _elm_lang$core$Platform_Cmd$none
 				};
 		}
