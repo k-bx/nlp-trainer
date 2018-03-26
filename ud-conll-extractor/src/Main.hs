@@ -47,7 +47,7 @@ genElmEntities Document {..} =
 main :: IO ()
 main = do
   let enFile =
-        "/home/kb/workspace/UniversalDependencies/UD_English-EWT/en-ud-train.conllu"
+        "/home/kb/workspace/UniversalDependencies/gum/dep/ud/GUM_academic_art.conllu"
   let ukFile =
         "/home/kb/workspace/UniversalDependencies/UD_Ukrainian-IU/uk-ud-train.conllu"
   enDoc <- readConlluFile enFile
