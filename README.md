@@ -1,5 +1,7 @@
 # Trenuvalochka
 
+See https://k-bx.github.io/nlp-trainer/
+
 TODO:
 
 - [x] root relation check support
