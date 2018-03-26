@@ -5733,134 +5733,6 @@ var _elm_lang$core$Platform$Program = {ctor: 'Program'};
 var _elm_lang$core$Platform$Task = {ctor: 'Task'};
 var _elm_lang$core$Platform$ProcessId = {ctor: 'ProcessId'};
 var _elm_lang$core$Platform$Router = {ctor: 'Router'};
-var _debois$elm_dom$DOM$className = A2(
-	_elm_lang$core$Json_Decode$at,
-	{
-		ctor: '::',
-		_0: 'className',
-		_1: {ctor: '[]'}
-	},
-	_elm_lang$core$Json_Decode$string);
-var _debois$elm_dom$DOM$scrollTop = A2(_elm_lang$core$Json_Decode$field, 'scrollTop', _elm_lang$core$Json_Decode$float);
-var _debois$elm_dom$DOM$scrollLeft = A2(_elm_lang$core$Json_Decode$field, 'scrollLeft', _elm_lang$core$Json_Decode$float);
-var _debois$elm_dom$DOM$offsetTop = A2(_elm_lang$core$Json_Decode$field, 'offsetTop', _elm_lang$core$Json_Decode$float);
-var _debois$elm_dom$DOM$offsetLeft = A2(_elm_lang$core$Json_Decode$field, 'offsetLeft', _elm_lang$core$Json_Decode$float);
-var _debois$elm_dom$DOM$offsetHeight = A2(_elm_lang$core$Json_Decode$field, 'offsetHeight', _elm_lang$core$Json_Decode$float);
-var _debois$elm_dom$DOM$offsetWidth = A2(_elm_lang$core$Json_Decode$field, 'offsetWidth', _elm_lang$core$Json_Decode$float);
-var _debois$elm_dom$DOM$childNodes = function (decoder) {
-	var loop = F2(
-		function (idx, xs) {
-			return A2(
-				_elm_lang$core$Json_Decode$andThen,
-				function (_p0) {
-					return A2(
-						_elm_lang$core$Maybe$withDefault,
-						_elm_lang$core$Json_Decode$succeed(xs),
-						A2(
-							_elm_lang$core$Maybe$map,
-							function (x) {
-								return A2(
-									loop,
-									idx + 1,
-									{ctor: '::', _0: x, _1: xs});
-							},
-							_p0));
-				},
-				_elm_lang$core$Json_Decode$maybe(
-					A2(
-						_elm_lang$core$Json_Decode$field,
-						_elm_lang$core$Basics$toString(idx),
-						decoder)));
-		});
-	return A2(
-		_elm_lang$core$Json_Decode$map,
-		_elm_lang$core$List$reverse,
-		A2(
-			_elm_lang$core$Json_Decode$field,
-			'childNodes',
-			A2(
-				loop,
-				0,
-				{ctor: '[]'})));
-};
-var _debois$elm_dom$DOM$childNode = function (idx) {
-	return _elm_lang$core$Json_Decode$at(
-		{
-			ctor: '::',
-			_0: 'childNodes',
-			_1: {
-				ctor: '::',
-				_0: _elm_lang$core$Basics$toString(idx),
-				_1: {ctor: '[]'}
-			}
-		});
-};
-var _debois$elm_dom$DOM$parentElement = function (decoder) {
-	return A2(_elm_lang$core$Json_Decode$field, 'parentElement', decoder);
-};
-var _debois$elm_dom$DOM$previousSibling = function (decoder) {
-	return A2(_elm_lang$core$Json_Decode$field, 'previousSibling', decoder);
-};
-var _debois$elm_dom$DOM$nextSibling = function (decoder) {
-	return A2(_elm_lang$core$Json_Decode$field, 'nextSibling', decoder);
-};
-var _debois$elm_dom$DOM$offsetParent = F2(
-	function (x, decoder) {
-		return _elm_lang$core$Json_Decode$oneOf(
-			{
-				ctor: '::',
-				_0: A2(
-					_elm_lang$core$Json_Decode$field,
-					'offsetParent',
-					_elm_lang$core$Json_Decode$null(x)),
-				_1: {
-					ctor: '::',
-					_0: A2(_elm_lang$core$Json_Decode$field, 'offsetParent', decoder),
-					_1: {ctor: '[]'}
-				}
-			});
-	});
-var _debois$elm_dom$DOM$position = F2(
-	function (x, y) {
-		return A2(
-			_elm_lang$core$Json_Decode$andThen,
-			function (_p1) {
-				var _p2 = _p1;
-				var _p4 = _p2._1;
-				var _p3 = _p2._0;
-				return A2(
-					_debois$elm_dom$DOM$offsetParent,
-					{ctor: '_Tuple2', _0: _p3, _1: _p4},
-					A2(_debois$elm_dom$DOM$position, _p3, _p4));
-			},
-			A5(
-				_elm_lang$core$Json_Decode$map4,
-				F4(
-					function (scrollLeft, scrollTop, offsetLeft, offsetTop) {
-						return {ctor: '_Tuple2', _0: (x + offsetLeft) - scrollLeft, _1: (y + offsetTop) - scrollTop};
-					}),
-				_debois$elm_dom$DOM$scrollLeft,
-				_debois$elm_dom$DOM$scrollTop,
-				_debois$elm_dom$DOM$offsetLeft,
-				_debois$elm_dom$DOM$offsetTop));
-	});
-var _debois$elm_dom$DOM$boundingClientRect = A4(
-	_elm_lang$core$Json_Decode$map3,
-	F3(
-		function (_p5, width, height) {
-			var _p6 = _p5;
-			return {top: _p6._1, left: _p6._0, width: width, height: height};
-		}),
-	A2(_debois$elm_dom$DOM$position, 0, 0),
-	_debois$elm_dom$DOM$offsetWidth,
-	_debois$elm_dom$DOM$offsetHeight);
-var _debois$elm_dom$DOM$target = function (decoder) {
-	return A2(_elm_lang$core$Json_Decode$field, 'target', decoder);
-};
-var _debois$elm_dom$DOM$Rectangle = F4(
-	function (a, b, c, d) {
-		return {top: a, left: b, width: c, height: d};
-	});
 var _elm_lang$animation_frame$Native_AnimationFrame = function()
 {
 
@@ -6814,190 +6686,6 @@ var _elm_lang$core$Random$cmdMap = F2(
 			A2(_elm_lang$core$Random$map, func, _p79._0));
 	});
 _elm_lang$core$Native_Platform.effectManagers['Random'] = {pkg: 'elm-lang/core', init: _elm_lang$core$Random$init, onEffects: _elm_lang$core$Random$onEffects, onSelfMsg: _elm_lang$core$Random$onSelfMsg, tag: 'cmd', cmdMap: _elm_lang$core$Random$cmdMap};
-var _elm_lang$dom$Native_Dom = function() {
-
-var fakeNode = {
-	addEventListener: function() {},
-	removeEventListener: function() {}
-};
-
-var onDocument = on(typeof document !== 'undefined' ? document : fakeNode);
-var onWindow = on(typeof window !== 'undefined' ? window : fakeNode);
-
-function on(node)
-{
-	return function(eventName, decoder, toTask)
-	{
-		return _elm_lang$core$Native_Scheduler.nativeBinding(function(callback) {
-
-			function performTask(event)
-			{
-				var result = A2(_elm_lang$core$Json_Decode$decodeValue, decoder, event);
-				if (result.ctor === 'Ok')
-				{
-					_elm_lang$core$Native_Scheduler.rawSpawn(toTask(result._0));
-				}
-			}
-
-			node.addEventListener(eventName, performTask);
-
-			return function()
-			{
-				node.removeEventListener(eventName, performTask);
-			};
-		});
-	};
-}
-
-var rAF = typeof requestAnimationFrame !== 'undefined'
-	? requestAnimationFrame
-	: function(callback) { callback(); };
-
-function withNode(id, doStuff)
-{
-	return _elm_lang$core$Native_Scheduler.nativeBinding(function(callback)
-	{
-		rAF(function()
-		{
-			var node = document.getElementById(id);
-			if (node === null)
-			{
-				callback(_elm_lang$core$Native_Scheduler.fail({ ctor: 'NotFound', _0: id }));
-				return;
-			}
-			callback(_elm_lang$core$Native_Scheduler.succeed(doStuff(node)));
-		});
-	});
-}
-
-
-// FOCUS
-
-function focus(id)
-{
-	return withNode(id, function(node) {
-		node.focus();
-		return _elm_lang$core$Native_Utils.Tuple0;
-	});
-}
-
-function blur(id)
-{
-	return withNode(id, function(node) {
-		node.blur();
-		return _elm_lang$core$Native_Utils.Tuple0;
-	});
-}
-
-
-// SCROLLING
-
-function getScrollTop(id)
-{
-	return withNode(id, function(node) {
-		return node.scrollTop;
-	});
-}
-
-function setScrollTop(id, desiredScrollTop)
-{
-	return withNode(id, function(node) {
-		node.scrollTop = desiredScrollTop;
-		return _elm_lang$core$Native_Utils.Tuple0;
-	});
-}
-
-function toBottom(id)
-{
-	return withNode(id, function(node) {
-		node.scrollTop = node.scrollHeight;
-		return _elm_lang$core$Native_Utils.Tuple0;
-	});
-}
-
-function getScrollLeft(id)
-{
-	return withNode(id, function(node) {
-		return node.scrollLeft;
-	});
-}
-
-function setScrollLeft(id, desiredScrollLeft)
-{
-	return withNode(id, function(node) {
-		node.scrollLeft = desiredScrollLeft;
-		return _elm_lang$core$Native_Utils.Tuple0;
-	});
-}
-
-function toRight(id)
-{
-	return withNode(id, function(node) {
-		node.scrollLeft = node.scrollWidth;
-		return _elm_lang$core$Native_Utils.Tuple0;
-	});
-}
-
-
-// SIZE
-
-function width(options, id)
-{
-	return withNode(id, function(node) {
-		switch (options.ctor)
-		{
-			case 'Content':
-				return node.scrollWidth;
-			case 'VisibleContent':
-				return node.clientWidth;
-			case 'VisibleContentWithBorders':
-				return node.offsetWidth;
-			case 'VisibleContentWithBordersAndMargins':
-				var rect = node.getBoundingClientRect();
-				return rect.right - rect.left;
-		}
-	});
-}
-
-function height(options, id)
-{
-	return withNode(id, function(node) {
-		switch (options.ctor)
-		{
-			case 'Content':
-				return node.scrollHeight;
-			case 'VisibleContent':
-				return node.clientHeight;
-			case 'VisibleContentWithBorders':
-				return node.offsetHeight;
-			case 'VisibleContentWithBordersAndMargins':
-				var rect = node.getBoundingClientRect();
-				return rect.bottom - rect.top;
-		}
-	});
-}
-
-return {
-	onDocument: F3(onDocument),
-	onWindow: F3(onWindow),
-
-	focus: focus,
-	blur: blur,
-
-	getScrollTop: getScrollTop,
-	setScrollTop: F2(setScrollTop),
-	getScrollLeft: getScrollLeft,
-	setScrollLeft: F2(setScrollLeft),
-	toBottom: toBottom,
-	toRight: toRight,
-
-	height: F2(height),
-	width: F2(width)
-};
-
-}();
-var _elm_lang$dom$Dom_LowLevel$onWindow = _elm_lang$dom$Native_Dom.onWindow;
-var _elm_lang$dom$Dom_LowLevel$onDocument = _elm_lang$dom$Native_Dom.onDocument;
 var _elm_lang$virtual_dom$VirtualDom_Debug$wrap;
 var _elm_lang$virtual_dom$VirtualDom_Debug$wrapWithFlags;
 
@@ -9499,214 +9187,6 @@ var _elm_lang$html$Html_Events$Options = F2(
 var _elm_lang$html$Html_Keyed$node = _elm_lang$virtual_dom$VirtualDom$keyedNode;
 var _elm_lang$html$Html_Keyed$ol = _elm_lang$html$Html_Keyed$node('ol');
 var _elm_lang$html$Html_Keyed$ul = _elm_lang$html$Html_Keyed$node('ul');
-var _elm_lang$mouse$Mouse_ops = _elm_lang$mouse$Mouse_ops || {};
-_elm_lang$mouse$Mouse_ops['&>'] = F2(
-	function (t1, t2) {
-		return A2(
-			_elm_lang$core$Task$andThen,
-			function (_p0) {
-				return t2;
-			},
-			t1);
-	});
-var _elm_lang$mouse$Mouse$onSelfMsg = F3(
-	function (router, _p1, state) {
-		var _p2 = _p1;
-		var _p3 = A2(_elm_lang$core$Dict$get, _p2.category, state);
-		if (_p3.ctor === 'Nothing') {
-			return _elm_lang$core$Task$succeed(state);
-		} else {
-			var send = function (tagger) {
-				return A2(
-					_elm_lang$core$Platform$sendToApp,
-					router,
-					tagger(_p2.position));
-			};
-			return A2(
-				_elm_lang$mouse$Mouse_ops['&>'],
-				_elm_lang$core$Task$sequence(
-					A2(_elm_lang$core$List$map, send, _p3._0.taggers)),
-				_elm_lang$core$Task$succeed(state));
-		}
-	});
-var _elm_lang$mouse$Mouse$init = _elm_lang$core$Task$succeed(_elm_lang$core$Dict$empty);
-var _elm_lang$mouse$Mouse$categorizeHelpHelp = F2(
-	function (value, maybeValues) {
-		var _p4 = maybeValues;
-		if (_p4.ctor === 'Nothing') {
-			return _elm_lang$core$Maybe$Just(
-				{
-					ctor: '::',
-					_0: value,
-					_1: {ctor: '[]'}
-				});
-		} else {
-			return _elm_lang$core$Maybe$Just(
-				{ctor: '::', _0: value, _1: _p4._0});
-		}
-	});
-var _elm_lang$mouse$Mouse$categorizeHelp = F2(
-	function (subs, subDict) {
-		categorizeHelp:
-		while (true) {
-			var _p5 = subs;
-			if (_p5.ctor === '[]') {
-				return subDict;
-			} else {
-				var _v4 = _p5._1,
-					_v5 = A3(
-					_elm_lang$core$Dict$update,
-					_p5._0._0,
-					_elm_lang$mouse$Mouse$categorizeHelpHelp(_p5._0._1),
-					subDict);
-				subs = _v4;
-				subDict = _v5;
-				continue categorizeHelp;
-			}
-		}
-	});
-var _elm_lang$mouse$Mouse$categorize = function (subs) {
-	return A2(_elm_lang$mouse$Mouse$categorizeHelp, subs, _elm_lang$core$Dict$empty);
-};
-var _elm_lang$mouse$Mouse$subscription = _elm_lang$core$Native_Platform.leaf('Mouse');
-var _elm_lang$mouse$Mouse$Position = F2(
-	function (a, b) {
-		return {x: a, y: b};
-	});
-var _elm_lang$mouse$Mouse$position = A3(
-	_elm_lang$core$Json_Decode$map2,
-	_elm_lang$mouse$Mouse$Position,
-	A2(_elm_lang$core$Json_Decode$field, 'pageX', _elm_lang$core$Json_Decode$int),
-	A2(_elm_lang$core$Json_Decode$field, 'pageY', _elm_lang$core$Json_Decode$int));
-var _elm_lang$mouse$Mouse$Watcher = F2(
-	function (a, b) {
-		return {taggers: a, pid: b};
-	});
-var _elm_lang$mouse$Mouse$Msg = F2(
-	function (a, b) {
-		return {category: a, position: b};
-	});
-var _elm_lang$mouse$Mouse$onEffects = F3(
-	function (router, newSubs, oldState) {
-		var rightStep = F3(
-			function (category, taggers, task) {
-				var tracker = A3(
-					_elm_lang$dom$Dom_LowLevel$onDocument,
-					category,
-					_elm_lang$mouse$Mouse$position,
-					function (_p6) {
-						return A2(
-							_elm_lang$core$Platform$sendToSelf,
-							router,
-							A2(_elm_lang$mouse$Mouse$Msg, category, _p6));
-					});
-				return A2(
-					_elm_lang$core$Task$andThen,
-					function (state) {
-						return A2(
-							_elm_lang$core$Task$andThen,
-							function (pid) {
-								return _elm_lang$core$Task$succeed(
-									A3(
-										_elm_lang$core$Dict$insert,
-										category,
-										A2(_elm_lang$mouse$Mouse$Watcher, taggers, pid),
-										state));
-							},
-							_elm_lang$core$Process$spawn(tracker));
-					},
-					task);
-			});
-		var bothStep = F4(
-			function (category, _p7, taggers, task) {
-				var _p8 = _p7;
-				return A2(
-					_elm_lang$core$Task$andThen,
-					function (state) {
-						return _elm_lang$core$Task$succeed(
-							A3(
-								_elm_lang$core$Dict$insert,
-								category,
-								A2(_elm_lang$mouse$Mouse$Watcher, taggers, _p8.pid),
-								state));
-					},
-					task);
-			});
-		var leftStep = F3(
-			function (category, _p9, task) {
-				var _p10 = _p9;
-				return A2(
-					_elm_lang$mouse$Mouse_ops['&>'],
-					_elm_lang$core$Process$kill(_p10.pid),
-					task);
-			});
-		return A6(
-			_elm_lang$core$Dict$merge,
-			leftStep,
-			bothStep,
-			rightStep,
-			oldState,
-			_elm_lang$mouse$Mouse$categorize(newSubs),
-			_elm_lang$core$Task$succeed(_elm_lang$core$Dict$empty));
-	});
-var _elm_lang$mouse$Mouse$MySub = F2(
-	function (a, b) {
-		return {ctor: 'MySub', _0: a, _1: b};
-	});
-var _elm_lang$mouse$Mouse$clicks = function (tagger) {
-	return _elm_lang$mouse$Mouse$subscription(
-		A2(_elm_lang$mouse$Mouse$MySub, 'click', tagger));
-};
-var _elm_lang$mouse$Mouse$moves = function (tagger) {
-	return _elm_lang$mouse$Mouse$subscription(
-		A2(_elm_lang$mouse$Mouse$MySub, 'mousemove', tagger));
-};
-var _elm_lang$mouse$Mouse$downs = function (tagger) {
-	return _elm_lang$mouse$Mouse$subscription(
-		A2(_elm_lang$mouse$Mouse$MySub, 'mousedown', tagger));
-};
-var _elm_lang$mouse$Mouse$ups = function (tagger) {
-	return _elm_lang$mouse$Mouse$subscription(
-		A2(_elm_lang$mouse$Mouse$MySub, 'mouseup', tagger));
-};
-var _elm_lang$mouse$Mouse$subMap = F2(
-	function (func, _p11) {
-		var _p12 = _p11;
-		return A2(
-			_elm_lang$mouse$Mouse$MySub,
-			_p12._0,
-			function (_p13) {
-				return func(
-					_p12._1(_p13));
-			});
-	});
-_elm_lang$core$Native_Platform.effectManagers['Mouse'] = {pkg: 'elm-lang/mouse', init: _elm_lang$mouse$Mouse$init, onEffects: _elm_lang$mouse$Mouse$onEffects, onSelfMsg: _elm_lang$mouse$Mouse$onSelfMsg, tag: 'sub', subMap: _elm_lang$mouse$Mouse$subMap};
-var _rundis$elm_bootstrap$Bootstrap_CDN$fontAwesome = A3(
-	_elm_lang$html$Html$node,
-	'link',
-	{
-		ctor: '::',
-		_0: _elm_lang$html$Html_Attributes$rel('stylesheet'),
-		_1: {
-			ctor: '::',
-			_0: _elm_lang$html$Html_Attributes$href('https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css'),
-			_1: {ctor: '[]'}
-		}
-	},
-	{ctor: '[]'});
-var _rundis$elm_bootstrap$Bootstrap_CDN$stylesheet = A3(
-	_elm_lang$html$Html$node,
-	'link',
-	{
-		ctor: '::',
-		_0: _elm_lang$html$Html_Attributes$rel('stylesheet'),
-		_1: {
-			ctor: '::',
-			_0: _elm_lang$html$Html_Attributes$href('https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css'),
-			_1: {ctor: '[]'}
-		}
-	},
-	{ctor: '[]'});
 var _rundis$elm_bootstrap$Bootstrap_Internal_Role$toClass = F2(
 	function (prefix, role) {
 		return _elm_lang$html$Html_Attributes$class(
@@ -11150,6 +10630,350 @@ var _rundis$elm_bootstrap$Bootstrap_Grid_Internal$Around = {ctor: 'Around'};
 var _rundis$elm_bootstrap$Bootstrap_Grid_Internal$Right = {ctor: 'Right'};
 var _rundis$elm_bootstrap$Bootstrap_Grid_Internal$Center = {ctor: 'Center'};
 var _rundis$elm_bootstrap$Bootstrap_Grid_Internal$Left = {ctor: 'Left'};
+var _rundis$elm_bootstrap$Bootstrap_Internal_Button$roleClass = function (role) {
+	var _p0 = role;
+	switch (_p0.ctor) {
+		case 'Primary':
+			return 'primary';
+		case 'Secondary':
+			return 'secondary';
+		case 'Success':
+			return 'success';
+		case 'Info':
+			return 'info';
+		case 'Warning':
+			return 'warning';
+		case 'Danger':
+			return 'danger';
+		case 'Dark':
+			return 'dark';
+		case 'Light':
+			return 'light';
+		default:
+			return 'link';
+	}
+};
+var _rundis$elm_bootstrap$Bootstrap_Internal_Button$applyModifier = F2(
+	function (modifier, options) {
+		var _p1 = modifier;
+		switch (_p1.ctor) {
+			case 'Size':
+				return _elm_lang$core$Native_Utils.update(
+					options,
+					{
+						size: _elm_lang$core$Maybe$Just(_p1._0)
+					});
+			case 'Coloring':
+				return _elm_lang$core$Native_Utils.update(
+					options,
+					{
+						coloring: _elm_lang$core$Maybe$Just(_p1._0)
+					});
+			case 'Block':
+				return _elm_lang$core$Native_Utils.update(
+					options,
+					{block: true});
+			case 'Disabled':
+				return _elm_lang$core$Native_Utils.update(
+					options,
+					{disabled: _p1._0});
+			default:
+				return _elm_lang$core$Native_Utils.update(
+					options,
+					{
+						attributes: A2(_elm_lang$core$Basics_ops['++'], options.attributes, _p1._0)
+					});
+		}
+	});
+var _rundis$elm_bootstrap$Bootstrap_Internal_Button$defaultOptions = {
+	coloring: _elm_lang$core$Maybe$Nothing,
+	block: false,
+	disabled: false,
+	size: _elm_lang$core$Maybe$Nothing,
+	attributes: {ctor: '[]'}
+};
+var _rundis$elm_bootstrap$Bootstrap_Internal_Button$buttonAttributes = function (modifiers) {
+	var options = A3(_elm_lang$core$List$foldl, _rundis$elm_bootstrap$Bootstrap_Internal_Button$applyModifier, _rundis$elm_bootstrap$Bootstrap_Internal_Button$defaultOptions, modifiers);
+	return A2(
+		_elm_lang$core$Basics_ops['++'],
+		{
+			ctor: '::',
+			_0: _elm_lang$html$Html_Attributes$classList(
+				{
+					ctor: '::',
+					_0: {ctor: '_Tuple2', _0: 'btn', _1: true},
+					_1: {
+						ctor: '::',
+						_0: {ctor: '_Tuple2', _0: 'btn-block', _1: options.block},
+						_1: {
+							ctor: '::',
+							_0: {ctor: '_Tuple2', _0: 'disabled', _1: options.disabled},
+							_1: {ctor: '[]'}
+						}
+					}
+				}),
+			_1: {
+				ctor: '::',
+				_0: _elm_lang$html$Html_Attributes$disabled(options.disabled),
+				_1: {ctor: '[]'}
+			}
+		},
+		A2(
+			_elm_lang$core$Basics_ops['++'],
+			function () {
+				var _p2 = A2(_elm_lang$core$Maybe$andThen, _rundis$elm_bootstrap$Bootstrap_Grid_Internal$screenSizeOption, options.size);
+				if (_p2.ctor === 'Just') {
+					return {
+						ctor: '::',
+						_0: _elm_lang$html$Html_Attributes$class(
+							A2(_elm_lang$core$Basics_ops['++'], 'btn-', _p2._0)),
+						_1: {ctor: '[]'}
+					};
+				} else {
+					return {ctor: '[]'};
+				}
+			}(),
+			A2(
+				_elm_lang$core$Basics_ops['++'],
+				function () {
+					var _p3 = options.coloring;
+					if (_p3.ctor === 'Just') {
+						if (_p3._0.ctor === 'Roled') {
+							return {
+								ctor: '::',
+								_0: _elm_lang$html$Html_Attributes$class(
+									A2(
+										_elm_lang$core$Basics_ops['++'],
+										'btn-',
+										_rundis$elm_bootstrap$Bootstrap_Internal_Button$roleClass(_p3._0._0))),
+								_1: {ctor: '[]'}
+							};
+						} else {
+							return {
+								ctor: '::',
+								_0: _elm_lang$html$Html_Attributes$class(
+									A2(
+										_elm_lang$core$Basics_ops['++'],
+										'btn-outline-',
+										_rundis$elm_bootstrap$Bootstrap_Internal_Button$roleClass(_p3._0._0))),
+								_1: {ctor: '[]'}
+							};
+						}
+					} else {
+						return {ctor: '[]'};
+					}
+				}(),
+				options.attributes)));
+};
+var _rundis$elm_bootstrap$Bootstrap_Internal_Button$Options = F5(
+	function (a, b, c, d, e) {
+		return {coloring: a, block: b, disabled: c, size: d, attributes: e};
+	});
+var _rundis$elm_bootstrap$Bootstrap_Internal_Button$Attrs = function (a) {
+	return {ctor: 'Attrs', _0: a};
+};
+var _rundis$elm_bootstrap$Bootstrap_Internal_Button$Disabled = function (a) {
+	return {ctor: 'Disabled', _0: a};
+};
+var _rundis$elm_bootstrap$Bootstrap_Internal_Button$Block = {ctor: 'Block'};
+var _rundis$elm_bootstrap$Bootstrap_Internal_Button$Coloring = function (a) {
+	return {ctor: 'Coloring', _0: a};
+};
+var _rundis$elm_bootstrap$Bootstrap_Internal_Button$Size = function (a) {
+	return {ctor: 'Size', _0: a};
+};
+var _rundis$elm_bootstrap$Bootstrap_Internal_Button$Outlined = function (a) {
+	return {ctor: 'Outlined', _0: a};
+};
+var _rundis$elm_bootstrap$Bootstrap_Internal_Button$Roled = function (a) {
+	return {ctor: 'Roled', _0: a};
+};
+var _rundis$elm_bootstrap$Bootstrap_Internal_Button$Link = {ctor: 'Link'};
+var _rundis$elm_bootstrap$Bootstrap_Internal_Button$Light = {ctor: 'Light'};
+var _rundis$elm_bootstrap$Bootstrap_Internal_Button$Dark = {ctor: 'Dark'};
+var _rundis$elm_bootstrap$Bootstrap_Internal_Button$Danger = {ctor: 'Danger'};
+var _rundis$elm_bootstrap$Bootstrap_Internal_Button$Warning = {ctor: 'Warning'};
+var _rundis$elm_bootstrap$Bootstrap_Internal_Button$Info = {ctor: 'Info'};
+var _rundis$elm_bootstrap$Bootstrap_Internal_Button$Success = {ctor: 'Success'};
+var _rundis$elm_bootstrap$Bootstrap_Internal_Button$Secondary = {ctor: 'Secondary'};
+var _rundis$elm_bootstrap$Bootstrap_Internal_Button$Primary = {ctor: 'Primary'};
+var _rundis$elm_bootstrap$Bootstrap_Button$disabled = function (disabled) {
+	return _rundis$elm_bootstrap$Bootstrap_Internal_Button$Disabled(disabled);
+};
+var _rundis$elm_bootstrap$Bootstrap_Button$block = _rundis$elm_bootstrap$Bootstrap_Internal_Button$Block;
+var _rundis$elm_bootstrap$Bootstrap_Button$outlineDark = _rundis$elm_bootstrap$Bootstrap_Internal_Button$Coloring(
+	_rundis$elm_bootstrap$Bootstrap_Internal_Button$Outlined(_rundis$elm_bootstrap$Bootstrap_Internal_Button$Dark));
+var _rundis$elm_bootstrap$Bootstrap_Button$outlineLight = _rundis$elm_bootstrap$Bootstrap_Internal_Button$Coloring(
+	_rundis$elm_bootstrap$Bootstrap_Internal_Button$Outlined(_rundis$elm_bootstrap$Bootstrap_Internal_Button$Light));
+var _rundis$elm_bootstrap$Bootstrap_Button$outlineDanger = _rundis$elm_bootstrap$Bootstrap_Internal_Button$Coloring(
+	_rundis$elm_bootstrap$Bootstrap_Internal_Button$Outlined(_rundis$elm_bootstrap$Bootstrap_Internal_Button$Danger));
+var _rundis$elm_bootstrap$Bootstrap_Button$outlineWarning = _rundis$elm_bootstrap$Bootstrap_Internal_Button$Coloring(
+	_rundis$elm_bootstrap$Bootstrap_Internal_Button$Outlined(_rundis$elm_bootstrap$Bootstrap_Internal_Button$Warning));
+var _rundis$elm_bootstrap$Bootstrap_Button$outlineInfo = _rundis$elm_bootstrap$Bootstrap_Internal_Button$Coloring(
+	_rundis$elm_bootstrap$Bootstrap_Internal_Button$Outlined(_rundis$elm_bootstrap$Bootstrap_Internal_Button$Info));
+var _rundis$elm_bootstrap$Bootstrap_Button$outlineSuccess = _rundis$elm_bootstrap$Bootstrap_Internal_Button$Coloring(
+	_rundis$elm_bootstrap$Bootstrap_Internal_Button$Outlined(_rundis$elm_bootstrap$Bootstrap_Internal_Button$Success));
+var _rundis$elm_bootstrap$Bootstrap_Button$outlineSecondary = _rundis$elm_bootstrap$Bootstrap_Internal_Button$Coloring(
+	_rundis$elm_bootstrap$Bootstrap_Internal_Button$Outlined(_rundis$elm_bootstrap$Bootstrap_Internal_Button$Secondary));
+var _rundis$elm_bootstrap$Bootstrap_Button$outlinePrimary = _rundis$elm_bootstrap$Bootstrap_Internal_Button$Coloring(
+	_rundis$elm_bootstrap$Bootstrap_Internal_Button$Outlined(_rundis$elm_bootstrap$Bootstrap_Internal_Button$Primary));
+var _rundis$elm_bootstrap$Bootstrap_Button$roleLink = _rundis$elm_bootstrap$Bootstrap_Internal_Button$Coloring(
+	_rundis$elm_bootstrap$Bootstrap_Internal_Button$Roled(_rundis$elm_bootstrap$Bootstrap_Internal_Button$Link));
+var _rundis$elm_bootstrap$Bootstrap_Button$dark = _rundis$elm_bootstrap$Bootstrap_Internal_Button$Coloring(
+	_rundis$elm_bootstrap$Bootstrap_Internal_Button$Roled(_rundis$elm_bootstrap$Bootstrap_Internal_Button$Dark));
+var _rundis$elm_bootstrap$Bootstrap_Button$light = _rundis$elm_bootstrap$Bootstrap_Internal_Button$Coloring(
+	_rundis$elm_bootstrap$Bootstrap_Internal_Button$Roled(_rundis$elm_bootstrap$Bootstrap_Internal_Button$Light));
+var _rundis$elm_bootstrap$Bootstrap_Button$danger = _rundis$elm_bootstrap$Bootstrap_Internal_Button$Coloring(
+	_rundis$elm_bootstrap$Bootstrap_Internal_Button$Roled(_rundis$elm_bootstrap$Bootstrap_Internal_Button$Danger));
+var _rundis$elm_bootstrap$Bootstrap_Button$warning = _rundis$elm_bootstrap$Bootstrap_Internal_Button$Coloring(
+	_rundis$elm_bootstrap$Bootstrap_Internal_Button$Roled(_rundis$elm_bootstrap$Bootstrap_Internal_Button$Warning));
+var _rundis$elm_bootstrap$Bootstrap_Button$info = _rundis$elm_bootstrap$Bootstrap_Internal_Button$Coloring(
+	_rundis$elm_bootstrap$Bootstrap_Internal_Button$Roled(_rundis$elm_bootstrap$Bootstrap_Internal_Button$Info));
+var _rundis$elm_bootstrap$Bootstrap_Button$success = _rundis$elm_bootstrap$Bootstrap_Internal_Button$Coloring(
+	_rundis$elm_bootstrap$Bootstrap_Internal_Button$Roled(_rundis$elm_bootstrap$Bootstrap_Internal_Button$Success));
+var _rundis$elm_bootstrap$Bootstrap_Button$secondary = _rundis$elm_bootstrap$Bootstrap_Internal_Button$Coloring(
+	_rundis$elm_bootstrap$Bootstrap_Internal_Button$Roled(_rundis$elm_bootstrap$Bootstrap_Internal_Button$Secondary));
+var _rundis$elm_bootstrap$Bootstrap_Button$primary = _rundis$elm_bootstrap$Bootstrap_Internal_Button$Coloring(
+	_rundis$elm_bootstrap$Bootstrap_Internal_Button$Roled(_rundis$elm_bootstrap$Bootstrap_Internal_Button$Primary));
+var _rundis$elm_bootstrap$Bootstrap_Button$large = _rundis$elm_bootstrap$Bootstrap_Internal_Button$Size(_rundis$elm_bootstrap$Bootstrap_Grid_Internal$LG);
+var _rundis$elm_bootstrap$Bootstrap_Button$small = _rundis$elm_bootstrap$Bootstrap_Internal_Button$Size(_rundis$elm_bootstrap$Bootstrap_Grid_Internal$SM);
+var _rundis$elm_bootstrap$Bootstrap_Button$attrs = function (attrs) {
+	return _rundis$elm_bootstrap$Bootstrap_Internal_Button$Attrs(attrs);
+};
+var _rundis$elm_bootstrap$Bootstrap_Button$onClick = function (message) {
+	var defaultOptions = _elm_lang$html$Html_Events$defaultOptions;
+	return _rundis$elm_bootstrap$Bootstrap_Button$attrs(
+		{
+			ctor: '::',
+			_0: A3(
+				_elm_lang$html$Html_Events$onWithOptions,
+				'click',
+				_elm_lang$core$Native_Utils.update(
+					defaultOptions,
+					{preventDefault: true}),
+				_elm_lang$core$Json_Decode$succeed(message)),
+			_1: {ctor: '[]'}
+		});
+};
+var _rundis$elm_bootstrap$Bootstrap_Button$checkboxButton = F3(
+	function (checked, options, children) {
+		return A2(
+			_elm_lang$html$Html$label,
+			{
+				ctor: '::',
+				_0: _elm_lang$html$Html_Attributes$classList(
+					{
+						ctor: '::',
+						_0: {ctor: '_Tuple2', _0: 'active', _1: checked},
+						_1: {ctor: '[]'}
+					}),
+				_1: _rundis$elm_bootstrap$Bootstrap_Internal_Button$buttonAttributes(options)
+			},
+			{
+				ctor: '::',
+				_0: A2(
+					_elm_lang$html$Html$input,
+					{
+						ctor: '::',
+						_0: _elm_lang$html$Html_Attributes$type_('checkbox'),
+						_1: {
+							ctor: '::',
+							_0: _elm_lang$html$Html_Attributes$checked(checked),
+							_1: {
+								ctor: '::',
+								_0: _elm_lang$html$Html_Attributes$autocomplete(false),
+								_1: {ctor: '[]'}
+							}
+						}
+					},
+					{ctor: '[]'}),
+				_1: children
+			});
+	});
+var _rundis$elm_bootstrap$Bootstrap_Button$radioButton = F3(
+	function (checked, options, children) {
+		var hideRadio = A2(_elm_lang$html$Html_Attributes$attribute, 'data-toggle', 'button');
+		return A2(
+			_elm_lang$html$Html$label,
+			{
+				ctor: '::',
+				_0: _elm_lang$html$Html_Attributes$classList(
+					{
+						ctor: '::',
+						_0: {ctor: '_Tuple2', _0: 'active', _1: checked},
+						_1: {ctor: '[]'}
+					}),
+				_1: {
+					ctor: '::',
+					_0: hideRadio,
+					_1: _rundis$elm_bootstrap$Bootstrap_Internal_Button$buttonAttributes(options)
+				}
+			},
+			{
+				ctor: '::',
+				_0: A2(
+					_elm_lang$html$Html$input,
+					{
+						ctor: '::',
+						_0: _elm_lang$html$Html_Attributes$type_('radio'),
+						_1: {
+							ctor: '::',
+							_0: _elm_lang$html$Html_Attributes$checked(checked),
+							_1: {
+								ctor: '::',
+								_0: _elm_lang$html$Html_Attributes$autocomplete(false),
+								_1: {ctor: '[]'}
+							}
+						}
+					},
+					{ctor: '[]'}),
+				_1: children
+			});
+	});
+var _rundis$elm_bootstrap$Bootstrap_Button$linkButton = F2(
+	function (options, children) {
+		return A2(
+			_elm_lang$html$Html$a,
+			{
+				ctor: '::',
+				_0: A2(_elm_lang$html$Html_Attributes$attribute, 'role', 'button'),
+				_1: _rundis$elm_bootstrap$Bootstrap_Internal_Button$buttonAttributes(options)
+			},
+			children);
+	});
+var _rundis$elm_bootstrap$Bootstrap_Button$button = F2(
+	function (options, children) {
+		return A2(
+			_elm_lang$html$Html$button,
+			_rundis$elm_bootstrap$Bootstrap_Internal_Button$buttonAttributes(options),
+			children);
+	});
+var _rundis$elm_bootstrap$Bootstrap_CDN$fontAwesome = A3(
+	_elm_lang$html$Html$node,
+	'link',
+	{
+		ctor: '::',
+		_0: _elm_lang$html$Html_Attributes$rel('stylesheet'),
+		_1: {
+			ctor: '::',
+			_0: _elm_lang$html$Html_Attributes$href('https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css'),
+			_1: {ctor: '[]'}
+		}
+	},
+	{ctor: '[]'});
+var _rundis$elm_bootstrap$Bootstrap_CDN$stylesheet = A3(
+	_elm_lang$html$Html$node,
+	'link',
+	{
+		ctor: '::',
+		_0: _elm_lang$html$Html_Attributes$rel('stylesheet'),
+		_1: {
+			ctor: '::',
+			_0: _elm_lang$html$Html_Attributes$href('https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css'),
+			_1: {ctor: '[]'}
+		}
+	},
+	{ctor: '[]'});
 var _rundis$elm_bootstrap$Bootstrap_Grid_Col$pushXl12 = A2(_rundis$elm_bootstrap$Bootstrap_Grid_Internal$push, _rundis$elm_bootstrap$Bootstrap_Grid_Internal$XL, _rundis$elm_bootstrap$Bootstrap_Grid_Internal$Move12);
 var _rundis$elm_bootstrap$Bootstrap_Grid_Col$pushXl11 = A2(_rundis$elm_bootstrap$Bootstrap_Grid_Internal$push, _rundis$elm_bootstrap$Bootstrap_Grid_Internal$XL, _rundis$elm_bootstrap$Bootstrap_Grid_Internal$Move11);
 var _rundis$elm_bootstrap$Bootstrap_Grid_Col$pushXl10 = A2(_rundis$elm_bootstrap$Bootstrap_Grid_Internal$push, _rundis$elm_bootstrap$Bootstrap_Grid_Internal$XL, _rundis$elm_bootstrap$Bootstrap_Grid_Internal$Move10);
@@ -11580,900 +11404,6 @@ var _rundis$elm_bootstrap$Bootstrap_Grid$col = F2(
 		return _rundis$elm_bootstrap$Bootstrap_Grid$Column(
 			{options: options, children: children});
 	});
-var _rundis$elm_bootstrap$Bootstrap_Internal_Button$roleClass = function (role) {
-	var _p0 = role;
-	switch (_p0.ctor) {
-		case 'Primary':
-			return 'primary';
-		case 'Secondary':
-			return 'secondary';
-		case 'Success':
-			return 'success';
-		case 'Info':
-			return 'info';
-		case 'Warning':
-			return 'warning';
-		case 'Danger':
-			return 'danger';
-		case 'Dark':
-			return 'dark';
-		case 'Light':
-			return 'light';
-		default:
-			return 'link';
-	}
-};
-var _rundis$elm_bootstrap$Bootstrap_Internal_Button$applyModifier = F2(
-	function (modifier, options) {
-		var _p1 = modifier;
-		switch (_p1.ctor) {
-			case 'Size':
-				return _elm_lang$core$Native_Utils.update(
-					options,
-					{
-						size: _elm_lang$core$Maybe$Just(_p1._0)
-					});
-			case 'Coloring':
-				return _elm_lang$core$Native_Utils.update(
-					options,
-					{
-						coloring: _elm_lang$core$Maybe$Just(_p1._0)
-					});
-			case 'Block':
-				return _elm_lang$core$Native_Utils.update(
-					options,
-					{block: true});
-			case 'Disabled':
-				return _elm_lang$core$Native_Utils.update(
-					options,
-					{disabled: _p1._0});
-			default:
-				return _elm_lang$core$Native_Utils.update(
-					options,
-					{
-						attributes: A2(_elm_lang$core$Basics_ops['++'], options.attributes, _p1._0)
-					});
-		}
-	});
-var _rundis$elm_bootstrap$Bootstrap_Internal_Button$defaultOptions = {
-	coloring: _elm_lang$core$Maybe$Nothing,
-	block: false,
-	disabled: false,
-	size: _elm_lang$core$Maybe$Nothing,
-	attributes: {ctor: '[]'}
-};
-var _rundis$elm_bootstrap$Bootstrap_Internal_Button$buttonAttributes = function (modifiers) {
-	var options = A3(_elm_lang$core$List$foldl, _rundis$elm_bootstrap$Bootstrap_Internal_Button$applyModifier, _rundis$elm_bootstrap$Bootstrap_Internal_Button$defaultOptions, modifiers);
-	return A2(
-		_elm_lang$core$Basics_ops['++'],
-		{
-			ctor: '::',
-			_0: _elm_lang$html$Html_Attributes$classList(
-				{
-					ctor: '::',
-					_0: {ctor: '_Tuple2', _0: 'btn', _1: true},
-					_1: {
-						ctor: '::',
-						_0: {ctor: '_Tuple2', _0: 'btn-block', _1: options.block},
-						_1: {
-							ctor: '::',
-							_0: {ctor: '_Tuple2', _0: 'disabled', _1: options.disabled},
-							_1: {ctor: '[]'}
-						}
-					}
-				}),
-			_1: {
-				ctor: '::',
-				_0: _elm_lang$html$Html_Attributes$disabled(options.disabled),
-				_1: {ctor: '[]'}
-			}
-		},
-		A2(
-			_elm_lang$core$Basics_ops['++'],
-			function () {
-				var _p2 = A2(_elm_lang$core$Maybe$andThen, _rundis$elm_bootstrap$Bootstrap_Grid_Internal$screenSizeOption, options.size);
-				if (_p2.ctor === 'Just') {
-					return {
-						ctor: '::',
-						_0: _elm_lang$html$Html_Attributes$class(
-							A2(_elm_lang$core$Basics_ops['++'], 'btn-', _p2._0)),
-						_1: {ctor: '[]'}
-					};
-				} else {
-					return {ctor: '[]'};
-				}
-			}(),
-			A2(
-				_elm_lang$core$Basics_ops['++'],
-				function () {
-					var _p3 = options.coloring;
-					if (_p3.ctor === 'Just') {
-						if (_p3._0.ctor === 'Roled') {
-							return {
-								ctor: '::',
-								_0: _elm_lang$html$Html_Attributes$class(
-									A2(
-										_elm_lang$core$Basics_ops['++'],
-										'btn-',
-										_rundis$elm_bootstrap$Bootstrap_Internal_Button$roleClass(_p3._0._0))),
-								_1: {ctor: '[]'}
-							};
-						} else {
-							return {
-								ctor: '::',
-								_0: _elm_lang$html$Html_Attributes$class(
-									A2(
-										_elm_lang$core$Basics_ops['++'],
-										'btn-outline-',
-										_rundis$elm_bootstrap$Bootstrap_Internal_Button$roleClass(_p3._0._0))),
-								_1: {ctor: '[]'}
-							};
-						}
-					} else {
-						return {ctor: '[]'};
-					}
-				}(),
-				options.attributes)));
-};
-var _rundis$elm_bootstrap$Bootstrap_Internal_Button$Options = F5(
-	function (a, b, c, d, e) {
-		return {coloring: a, block: b, disabled: c, size: d, attributes: e};
-	});
-var _rundis$elm_bootstrap$Bootstrap_Internal_Button$Attrs = function (a) {
-	return {ctor: 'Attrs', _0: a};
-};
-var _rundis$elm_bootstrap$Bootstrap_Internal_Button$Disabled = function (a) {
-	return {ctor: 'Disabled', _0: a};
-};
-var _rundis$elm_bootstrap$Bootstrap_Internal_Button$Block = {ctor: 'Block'};
-var _rundis$elm_bootstrap$Bootstrap_Internal_Button$Coloring = function (a) {
-	return {ctor: 'Coloring', _0: a};
-};
-var _rundis$elm_bootstrap$Bootstrap_Internal_Button$Size = function (a) {
-	return {ctor: 'Size', _0: a};
-};
-var _rundis$elm_bootstrap$Bootstrap_Internal_Button$Outlined = function (a) {
-	return {ctor: 'Outlined', _0: a};
-};
-var _rundis$elm_bootstrap$Bootstrap_Internal_Button$Roled = function (a) {
-	return {ctor: 'Roled', _0: a};
-};
-var _rundis$elm_bootstrap$Bootstrap_Internal_Button$Link = {ctor: 'Link'};
-var _rundis$elm_bootstrap$Bootstrap_Internal_Button$Light = {ctor: 'Light'};
-var _rundis$elm_bootstrap$Bootstrap_Internal_Button$Dark = {ctor: 'Dark'};
-var _rundis$elm_bootstrap$Bootstrap_Internal_Button$Danger = {ctor: 'Danger'};
-var _rundis$elm_bootstrap$Bootstrap_Internal_Button$Warning = {ctor: 'Warning'};
-var _rundis$elm_bootstrap$Bootstrap_Internal_Button$Info = {ctor: 'Info'};
-var _rundis$elm_bootstrap$Bootstrap_Internal_Button$Success = {ctor: 'Success'};
-var _rundis$elm_bootstrap$Bootstrap_Internal_Button$Secondary = {ctor: 'Secondary'};
-var _rundis$elm_bootstrap$Bootstrap_Internal_Button$Primary = {ctor: 'Primary'};
-var _rundis$elm_bootstrap$Bootstrap_Button$disabled = function (disabled) {
-	return _rundis$elm_bootstrap$Bootstrap_Internal_Button$Disabled(disabled);
-};
-var _rundis$elm_bootstrap$Bootstrap_Button$block = _rundis$elm_bootstrap$Bootstrap_Internal_Button$Block;
-var _rundis$elm_bootstrap$Bootstrap_Button$outlineDark = _rundis$elm_bootstrap$Bootstrap_Internal_Button$Coloring(
-	_rundis$elm_bootstrap$Bootstrap_Internal_Button$Outlined(_rundis$elm_bootstrap$Bootstrap_Internal_Button$Dark));
-var _rundis$elm_bootstrap$Bootstrap_Button$outlineLight = _rundis$elm_bootstrap$Bootstrap_Internal_Button$Coloring(
-	_rundis$elm_bootstrap$Bootstrap_Internal_Button$Outlined(_rundis$elm_bootstrap$Bootstrap_Internal_Button$Light));
-var _rundis$elm_bootstrap$Bootstrap_Button$outlineDanger = _rundis$elm_bootstrap$Bootstrap_Internal_Button$Coloring(
-	_rundis$elm_bootstrap$Bootstrap_Internal_Button$Outlined(_rundis$elm_bootstrap$Bootstrap_Internal_Button$Danger));
-var _rundis$elm_bootstrap$Bootstrap_Button$outlineWarning = _rundis$elm_bootstrap$Bootstrap_Internal_Button$Coloring(
-	_rundis$elm_bootstrap$Bootstrap_Internal_Button$Outlined(_rundis$elm_bootstrap$Bootstrap_Internal_Button$Warning));
-var _rundis$elm_bootstrap$Bootstrap_Button$outlineInfo = _rundis$elm_bootstrap$Bootstrap_Internal_Button$Coloring(
-	_rundis$elm_bootstrap$Bootstrap_Internal_Button$Outlined(_rundis$elm_bootstrap$Bootstrap_Internal_Button$Info));
-var _rundis$elm_bootstrap$Bootstrap_Button$outlineSuccess = _rundis$elm_bootstrap$Bootstrap_Internal_Button$Coloring(
-	_rundis$elm_bootstrap$Bootstrap_Internal_Button$Outlined(_rundis$elm_bootstrap$Bootstrap_Internal_Button$Success));
-var _rundis$elm_bootstrap$Bootstrap_Button$outlineSecondary = _rundis$elm_bootstrap$Bootstrap_Internal_Button$Coloring(
-	_rundis$elm_bootstrap$Bootstrap_Internal_Button$Outlined(_rundis$elm_bootstrap$Bootstrap_Internal_Button$Secondary));
-var _rundis$elm_bootstrap$Bootstrap_Button$outlinePrimary = _rundis$elm_bootstrap$Bootstrap_Internal_Button$Coloring(
-	_rundis$elm_bootstrap$Bootstrap_Internal_Button$Outlined(_rundis$elm_bootstrap$Bootstrap_Internal_Button$Primary));
-var _rundis$elm_bootstrap$Bootstrap_Button$roleLink = _rundis$elm_bootstrap$Bootstrap_Internal_Button$Coloring(
-	_rundis$elm_bootstrap$Bootstrap_Internal_Button$Roled(_rundis$elm_bootstrap$Bootstrap_Internal_Button$Link));
-var _rundis$elm_bootstrap$Bootstrap_Button$dark = _rundis$elm_bootstrap$Bootstrap_Internal_Button$Coloring(
-	_rundis$elm_bootstrap$Bootstrap_Internal_Button$Roled(_rundis$elm_bootstrap$Bootstrap_Internal_Button$Dark));
-var _rundis$elm_bootstrap$Bootstrap_Button$light = _rundis$elm_bootstrap$Bootstrap_Internal_Button$Coloring(
-	_rundis$elm_bootstrap$Bootstrap_Internal_Button$Roled(_rundis$elm_bootstrap$Bootstrap_Internal_Button$Light));
-var _rundis$elm_bootstrap$Bootstrap_Button$danger = _rundis$elm_bootstrap$Bootstrap_Internal_Button$Coloring(
-	_rundis$elm_bootstrap$Bootstrap_Internal_Button$Roled(_rundis$elm_bootstrap$Bootstrap_Internal_Button$Danger));
-var _rundis$elm_bootstrap$Bootstrap_Button$warning = _rundis$elm_bootstrap$Bootstrap_Internal_Button$Coloring(
-	_rundis$elm_bootstrap$Bootstrap_Internal_Button$Roled(_rundis$elm_bootstrap$Bootstrap_Internal_Button$Warning));
-var _rundis$elm_bootstrap$Bootstrap_Button$info = _rundis$elm_bootstrap$Bootstrap_Internal_Button$Coloring(
-	_rundis$elm_bootstrap$Bootstrap_Internal_Button$Roled(_rundis$elm_bootstrap$Bootstrap_Internal_Button$Info));
-var _rundis$elm_bootstrap$Bootstrap_Button$success = _rundis$elm_bootstrap$Bootstrap_Internal_Button$Coloring(
-	_rundis$elm_bootstrap$Bootstrap_Internal_Button$Roled(_rundis$elm_bootstrap$Bootstrap_Internal_Button$Success));
-var _rundis$elm_bootstrap$Bootstrap_Button$secondary = _rundis$elm_bootstrap$Bootstrap_Internal_Button$Coloring(
-	_rundis$elm_bootstrap$Bootstrap_Internal_Button$Roled(_rundis$elm_bootstrap$Bootstrap_Internal_Button$Secondary));
-var _rundis$elm_bootstrap$Bootstrap_Button$primary = _rundis$elm_bootstrap$Bootstrap_Internal_Button$Coloring(
-	_rundis$elm_bootstrap$Bootstrap_Internal_Button$Roled(_rundis$elm_bootstrap$Bootstrap_Internal_Button$Primary));
-var _rundis$elm_bootstrap$Bootstrap_Button$large = _rundis$elm_bootstrap$Bootstrap_Internal_Button$Size(_rundis$elm_bootstrap$Bootstrap_Grid_Internal$LG);
-var _rundis$elm_bootstrap$Bootstrap_Button$small = _rundis$elm_bootstrap$Bootstrap_Internal_Button$Size(_rundis$elm_bootstrap$Bootstrap_Grid_Internal$SM);
-var _rundis$elm_bootstrap$Bootstrap_Button$attrs = function (attrs) {
-	return _rundis$elm_bootstrap$Bootstrap_Internal_Button$Attrs(attrs);
-};
-var _rundis$elm_bootstrap$Bootstrap_Button$onClick = function (message) {
-	var defaultOptions = _elm_lang$html$Html_Events$defaultOptions;
-	return _rundis$elm_bootstrap$Bootstrap_Button$attrs(
-		{
-			ctor: '::',
-			_0: A3(
-				_elm_lang$html$Html_Events$onWithOptions,
-				'click',
-				_elm_lang$core$Native_Utils.update(
-					defaultOptions,
-					{preventDefault: true}),
-				_elm_lang$core$Json_Decode$succeed(message)),
-			_1: {ctor: '[]'}
-		});
-};
-var _rundis$elm_bootstrap$Bootstrap_Button$checkboxButton = F3(
-	function (checked, options, children) {
-		return A2(
-			_elm_lang$html$Html$label,
-			{
-				ctor: '::',
-				_0: _elm_lang$html$Html_Attributes$classList(
-					{
-						ctor: '::',
-						_0: {ctor: '_Tuple2', _0: 'active', _1: checked},
-						_1: {ctor: '[]'}
-					}),
-				_1: _rundis$elm_bootstrap$Bootstrap_Internal_Button$buttonAttributes(options)
-			},
-			{
-				ctor: '::',
-				_0: A2(
-					_elm_lang$html$Html$input,
-					{
-						ctor: '::',
-						_0: _elm_lang$html$Html_Attributes$type_('checkbox'),
-						_1: {
-							ctor: '::',
-							_0: _elm_lang$html$Html_Attributes$checked(checked),
-							_1: {
-								ctor: '::',
-								_0: _elm_lang$html$Html_Attributes$autocomplete(false),
-								_1: {ctor: '[]'}
-							}
-						}
-					},
-					{ctor: '[]'}),
-				_1: children
-			});
-	});
-var _rundis$elm_bootstrap$Bootstrap_Button$radioButton = F3(
-	function (checked, options, children) {
-		var hideRadio = A2(_elm_lang$html$Html_Attributes$attribute, 'data-toggle', 'button');
-		return A2(
-			_elm_lang$html$Html$label,
-			{
-				ctor: '::',
-				_0: _elm_lang$html$Html_Attributes$classList(
-					{
-						ctor: '::',
-						_0: {ctor: '_Tuple2', _0: 'active', _1: checked},
-						_1: {ctor: '[]'}
-					}),
-				_1: {
-					ctor: '::',
-					_0: hideRadio,
-					_1: _rundis$elm_bootstrap$Bootstrap_Internal_Button$buttonAttributes(options)
-				}
-			},
-			{
-				ctor: '::',
-				_0: A2(
-					_elm_lang$html$Html$input,
-					{
-						ctor: '::',
-						_0: _elm_lang$html$Html_Attributes$type_('radio'),
-						_1: {
-							ctor: '::',
-							_0: _elm_lang$html$Html_Attributes$checked(checked),
-							_1: {
-								ctor: '::',
-								_0: _elm_lang$html$Html_Attributes$autocomplete(false),
-								_1: {ctor: '[]'}
-							}
-						}
-					},
-					{ctor: '[]'}),
-				_1: children
-			});
-	});
-var _rundis$elm_bootstrap$Bootstrap_Button$linkButton = F2(
-	function (options, children) {
-		return A2(
-			_elm_lang$html$Html$a,
-			{
-				ctor: '::',
-				_0: A2(_elm_lang$html$Html_Attributes$attribute, 'role', 'button'),
-				_1: _rundis$elm_bootstrap$Bootstrap_Internal_Button$buttonAttributes(options)
-			},
-			children);
-	});
-var _rundis$elm_bootstrap$Bootstrap_Button$button = F2(
-	function (options, children) {
-		return A2(
-			_elm_lang$html$Html$button,
-			_rundis$elm_bootstrap$Bootstrap_Internal_Button$buttonAttributes(options),
-			children);
-	});
-var _rundis$elm_bootstrap$Bootstrap_Dropdown$sizeDecoder = A3(
-	_elm_lang$core$Json_Decode$map2,
-	F2(
-		function (v0, v1) {
-			return {ctor: '_Tuple2', _0: v0, _1: v1};
-		}),
-	_debois$elm_dom$DOM$target(_debois$elm_dom$DOM$boundingClientRect),
-	_debois$elm_dom$DOM$target(
-		_debois$elm_dom$DOM$nextSibling(
-			A2(_debois$elm_dom$DOM$childNode, 0, _debois$elm_dom$DOM$boundingClientRect))));
-var _rundis$elm_bootstrap$Bootstrap_Dropdown$applyModifier = F2(
-	function (option, options) {
-		var _p0 = option;
-		switch (_p0.ctor) {
-			case 'AlignMenuRight':
-				return _elm_lang$core$Native_Utils.update(
-					options,
-					{hasMenuRight: true});
-			case 'Dropup':
-				return _elm_lang$core$Native_Utils.update(
-					options,
-					{isDropUp: true});
-			case 'Attrs':
-				return _elm_lang$core$Native_Utils.update(
-					options,
-					{attributes: _p0._0});
-			case 'DropToDir':
-				return _elm_lang$core$Native_Utils.update(
-					options,
-					{
-						dropDirection: _elm_lang$core$Maybe$Just(_p0._0)
-					});
-			default:
-				return _elm_lang$core$Native_Utils.update(
-					options,
-					{menuAttrs: _p0._0});
-		}
-	});
-var _rundis$elm_bootstrap$Bootstrap_Dropdown$defaultOptions = {
-	hasMenuRight: false,
-	isDropUp: false,
-	attributes: {ctor: '[]'},
-	dropDirection: _elm_lang$core$Maybe$Nothing,
-	menuAttrs: {ctor: '[]'}
-};
-var _rundis$elm_bootstrap$Bootstrap_Dropdown$toConfig = function (options) {
-	return A3(_elm_lang$core$List$foldl, _rundis$elm_bootstrap$Bootstrap_Dropdown$applyModifier, _rundis$elm_bootstrap$Bootstrap_Dropdown$defaultOptions, options);
-};
-var _rundis$elm_bootstrap$Bootstrap_Dropdown$menuStyle = F2(
-	function (_p1, config) {
-		var _p2 = _p1;
-		var _p5 = _p2._0.toggleSize;
-		var _p4 = _p2._0.menuSize;
-		var px = function (n) {
-			return A2(
-				_elm_lang$core$Basics_ops['++'],
-				_elm_lang$core$Basics$toString(n),
-				'px');
-		};
-		var translate = F3(
-			function (x, y, z) {
-				return A2(
-					_elm_lang$core$Basics_ops['++'],
-					'translate3d(',
-					A2(
-						_elm_lang$core$Basics_ops['++'],
-						px(x),
-						A2(
-							_elm_lang$core$Basics_ops['++'],
-							',',
-							A2(
-								_elm_lang$core$Basics_ops['++'],
-								px(y),
-								A2(
-									_elm_lang$core$Basics_ops['++'],
-									',',
-									A2(
-										_elm_lang$core$Basics_ops['++'],
-										px(z),
-										')'))))));
-			});
-		var $default = {
-			ctor: '::',
-			_0: {ctor: '_Tuple2', _0: 'top', _1: '0'},
-			_1: {
-				ctor: '::',
-				_0: {ctor: '_Tuple2', _0: 'left', _1: '0'},
-				_1: {ctor: '[]'}
-			}
-		};
-		return _elm_lang$html$Html_Attributes$style(
-			function () {
-				var _p3 = {ctor: '_Tuple2', _0: config.isDropUp, _1: config.dropDirection};
-				_v2_3:
-				do {
-					_v2_0:
-					do {
-						if (_p3.ctor === '_Tuple2') {
-							if (_p3._1.ctor === 'Just') {
-								if (_p3._1._0.ctor === 'Dropright') {
-									if (_p3._0 === true) {
-										break _v2_0;
-									} else {
-										return $default;
-									}
-								} else {
-									if (_p3._0 === true) {
-										break _v2_0;
-									} else {
-										return A2(
-											_elm_lang$core$Basics_ops['++'],
-											$default,
-											{
-												ctor: '::',
-												_0: {
-													ctor: '_Tuple2',
-													_0: 'transform',
-													_1: A3(translate, (0 - _p5.width) - _p4.width, 0, 0)
-												},
-												_1: {ctor: '[]'}
-											});
-									}
-								}
-							} else {
-								if (_p3._0 === true) {
-									break _v2_0;
-								} else {
-									break _v2_3;
-								}
-							}
-						} else {
-							break _v2_3;
-						}
-					} while(false);
-					return A2(
-						_elm_lang$core$Basics_ops['++'],
-						$default,
-						{
-							ctor: '::',
-							_0: {
-								ctor: '_Tuple2',
-								_0: 'transform',
-								_1: A3(translate, 0 - _p5.width, 0 - _p4.height, 0)
-							},
-							_1: {ctor: '[]'}
-						});
-				} while(false);
-				return A2(
-					_elm_lang$core$Basics_ops['++'],
-					$default,
-					{
-						ctor: '::',
-						_0: {
-							ctor: '_Tuple2',
-							_0: 'transform',
-							_1: A3(translate, 0 - _p5.width, _p5.height, 0)
-						},
-						_1: {ctor: '[]'}
-					});
-			}());
-	});
-var _rundis$elm_bootstrap$Bootstrap_Dropdown$dropDir = function (maybeDir) {
-	var toAttrs = function (dir) {
-		return {
-			ctor: '::',
-			_0: _elm_lang$html$Html_Attributes$class(
-				A2(
-					_elm_lang$core$Basics_ops['++'],
-					'drop',
-					function () {
-						var _p6 = dir;
-						if (_p6.ctor === 'Dropleft') {
-							return 'left';
-						} else {
-							return 'right';
-						}
-					}())),
-			_1: {ctor: '[]'}
-		};
-	};
-	return A2(
-		_elm_lang$core$Maybe$withDefault,
-		{ctor: '[]'},
-		A2(_elm_lang$core$Maybe$map, toAttrs, maybeDir));
-};
-var _rundis$elm_bootstrap$Bootstrap_Dropdown$StateRec = F3(
-	function (a, b, c) {
-		return {status: a, toggleSize: b, menuSize: c};
-	});
-var _rundis$elm_bootstrap$Bootstrap_Dropdown$SplitToggleConfig = F3(
-	function (a, b, c) {
-		return {options: a, togglerOptions: b, children: c};
-	});
-var _rundis$elm_bootstrap$Bootstrap_Dropdown$Options = F5(
-	function (a, b, c, d, e) {
-		return {isDropUp: a, hasMenuRight: b, dropDirection: c, attributes: d, menuAttrs: e};
-	});
-var _rundis$elm_bootstrap$Bootstrap_Dropdown$State = function (a) {
-	return {ctor: 'State', _0: a};
-};
-var _rundis$elm_bootstrap$Bootstrap_Dropdown$updateStatus = F2(
-	function (status, _p7) {
-		var _p8 = _p7;
-		return _rundis$elm_bootstrap$Bootstrap_Dropdown$State(
-			_elm_lang$core$Native_Utils.update(
-				_p8._0,
-				{status: status}));
-	});
-var _rundis$elm_bootstrap$Bootstrap_Dropdown$Closed = {ctor: 'Closed'};
-var _rundis$elm_bootstrap$Bootstrap_Dropdown$initialState = _rundis$elm_bootstrap$Bootstrap_Dropdown$State(
-	{
-		status: _rundis$elm_bootstrap$Bootstrap_Dropdown$Closed,
-		toggleSize: A4(_debois$elm_dom$DOM$Rectangle, 0, 0, 0, 0),
-		menuSize: A4(_debois$elm_dom$DOM$Rectangle, 0, 0, 0, 0)
-	});
-var _rundis$elm_bootstrap$Bootstrap_Dropdown$dropdownAttributes = F2(
-	function (status, config) {
-		return A2(
-			_elm_lang$core$Basics_ops['++'],
-			{
-				ctor: '::',
-				_0: _elm_lang$html$Html_Attributes$classList(
-					{
-						ctor: '::',
-						_0: {ctor: '_Tuple2', _0: 'btn-group', _1: true},
-						_1: {
-							ctor: '::',
-							_0: {
-								ctor: '_Tuple2',
-								_0: 'show',
-								_1: !_elm_lang$core$Native_Utils.eq(status, _rundis$elm_bootstrap$Bootstrap_Dropdown$Closed)
-							},
-							_1: {
-								ctor: '::',
-								_0: {ctor: '_Tuple2', _0: 'dropup', _1: config.isDropUp},
-								_1: {ctor: '[]'}
-							}
-						}
-					}),
-				_1: {ctor: '[]'}
-			},
-			A2(
-				_elm_lang$core$Basics_ops['++'],
-				_rundis$elm_bootstrap$Bootstrap_Dropdown$dropDir(config.dropDirection),
-				config.attributes));
-	});
-var _rundis$elm_bootstrap$Bootstrap_Dropdown$dropdownMenu = F3(
-	function (_p9, config, items) {
-		var _p10 = _p9;
-		var wrapperStyle = _elm_lang$core$Native_Utils.eq(_p10._0.status, _rundis$elm_bootstrap$Bootstrap_Dropdown$Closed) ? {
-			ctor: '::',
-			_0: {ctor: '_Tuple2', _0: 'height', _1: '0'},
-			_1: {
-				ctor: '::',
-				_0: {ctor: '_Tuple2', _0: 'overflow', _1: 'hidden'},
-				_1: {
-					ctor: '::',
-					_0: {ctor: '_Tuple2', _0: 'position', _1: 'relative'},
-					_1: {ctor: '[]'}
-				}
-			}
-		} : {
-			ctor: '::',
-			_0: {ctor: '_Tuple2', _0: 'position', _1: 'relative'},
-			_1: {ctor: '[]'}
-		};
-		return A2(
-			_elm_lang$html$Html$div,
-			{
-				ctor: '::',
-				_0: _elm_lang$html$Html_Attributes$style(wrapperStyle),
-				_1: {ctor: '[]'}
-			},
-			{
-				ctor: '::',
-				_0: A2(
-					_elm_lang$html$Html$div,
-					A2(
-						_elm_lang$core$Basics_ops['++'],
-						{
-							ctor: '::',
-							_0: _elm_lang$html$Html_Attributes$classList(
-								{
-									ctor: '::',
-									_0: {ctor: '_Tuple2', _0: 'dropdown-menu', _1: true},
-									_1: {
-										ctor: '::',
-										_0: {ctor: '_Tuple2', _0: 'dropdown-menu-right', _1: config.hasMenuRight},
-										_1: {
-											ctor: '::',
-											_0: {ctor: '_Tuple2', _0: 'show', _1: true},
-											_1: {ctor: '[]'}
-										}
-									}
-								}),
-							_1: {
-								ctor: '::',
-								_0: A2(_rundis$elm_bootstrap$Bootstrap_Dropdown$menuStyle, _p10, config),
-								_1: {ctor: '[]'}
-							}
-						},
-						config.menuAttrs),
-					A2(
-						_elm_lang$core$List$map,
-						function (_p11) {
-							var _p12 = _p11;
-							return _p12._0;
-						},
-						items)),
-				_1: {ctor: '[]'}
-			});
-	});
-var _rundis$elm_bootstrap$Bootstrap_Dropdown$dropdown = F2(
-	function (_p14, _p13) {
-		var _p15 = _p14;
-		var _p18 = _p15;
-		var _p16 = _p13;
-		var config = _rundis$elm_bootstrap$Bootstrap_Dropdown$toConfig(_p16.options);
-		var _p17 = _p16.toggleButton;
-		var buttonFn = _p17._0;
-		return A2(
-			_elm_lang$html$Html$div,
-			A2(_rundis$elm_bootstrap$Bootstrap_Dropdown$dropdownAttributes, _p15._0.status, config),
-			{
-				ctor: '::',
-				_0: A2(buttonFn, _p16.toggleMsg, _p18),
-				_1: {
-					ctor: '::',
-					_0: A3(_rundis$elm_bootstrap$Bootstrap_Dropdown$dropdownMenu, _p18, config, _p16.items),
-					_1: {ctor: '[]'}
-				}
-			});
-	});
-var _rundis$elm_bootstrap$Bootstrap_Dropdown$splitDropdown = F2(
-	function (_p20, _p19) {
-		var _p21 = _p20;
-		var _p24 = _p21;
-		var _p22 = _p19;
-		var config = _rundis$elm_bootstrap$Bootstrap_Dropdown$toConfig(_p22.options);
-		var _p23 = _p22.toggleButton;
-		var buttonsFn = _p23._0;
-		return A2(
-			_elm_lang$html$Html$div,
-			A2(_rundis$elm_bootstrap$Bootstrap_Dropdown$dropdownAttributes, _p21._0.status, config),
-			A2(
-				_elm_lang$core$Basics_ops['++'],
-				A2(buttonsFn, _p22.toggleMsg, _p24),
-				{
-					ctor: '::',
-					_0: A3(_rundis$elm_bootstrap$Bootstrap_Dropdown$dropdownMenu, _p24, config, _p22.items),
-					_1: {ctor: '[]'}
-				}));
-	});
-var _rundis$elm_bootstrap$Bootstrap_Dropdown$ListenClicks = {ctor: 'ListenClicks'};
-var _rundis$elm_bootstrap$Bootstrap_Dropdown$subscriptions = F2(
-	function (_p25, toMsg) {
-		var _p26 = _p25;
-		var _p30 = _p26;
-		var _p27 = _p26._0.status;
-		switch (_p27.ctor) {
-			case 'Open':
-				return _elm_lang$animation_frame$AnimationFrame$times(
-					function (_p28) {
-						return toMsg(
-							A2(_rundis$elm_bootstrap$Bootstrap_Dropdown$updateStatus, _rundis$elm_bootstrap$Bootstrap_Dropdown$ListenClicks, _p30));
-					});
-			case 'ListenClicks':
-				return _elm_lang$mouse$Mouse$clicks(
-					function (_p29) {
-						return toMsg(
-							A2(_rundis$elm_bootstrap$Bootstrap_Dropdown$updateStatus, _rundis$elm_bootstrap$Bootstrap_Dropdown$Closed, _p30));
-					});
-			default:
-				return _elm_lang$core$Platform_Sub$none;
-		}
-	});
-var _rundis$elm_bootstrap$Bootstrap_Dropdown$Open = {ctor: 'Open'};
-var _rundis$elm_bootstrap$Bootstrap_Dropdown$nextStatus = function (status) {
-	var _p31 = status;
-	switch (_p31.ctor) {
-		case 'Open':
-			return _rundis$elm_bootstrap$Bootstrap_Dropdown$Closed;
-		case 'ListenClicks':
-			return _rundis$elm_bootstrap$Bootstrap_Dropdown$Closed;
-		default:
-			return _rundis$elm_bootstrap$Bootstrap_Dropdown$Open;
-	}
-};
-var _rundis$elm_bootstrap$Bootstrap_Dropdown$clickHandler = F2(
-	function (toMsg, _p32) {
-		var _p33 = _p32;
-		return A2(
-			_elm_lang$core$Json_Decode$andThen,
-			function (_p34) {
-				var _p35 = _p34;
-				return _elm_lang$core$Json_Decode$succeed(
-					toMsg(
-						_rundis$elm_bootstrap$Bootstrap_Dropdown$State(
-							{
-								status: _rundis$elm_bootstrap$Bootstrap_Dropdown$nextStatus(_p33._0.status),
-								toggleSize: _p35._0,
-								menuSize: _p35._1
-							})));
-			},
-			_rundis$elm_bootstrap$Bootstrap_Dropdown$sizeDecoder);
-	});
-var _rundis$elm_bootstrap$Bootstrap_Dropdown$togglePrivate = F4(
-	function (buttonOptions, children, toggleMsg, state) {
-		return A2(
-			_elm_lang$html$Html$button,
-			A2(
-				_elm_lang$core$Basics_ops['++'],
-				_rundis$elm_bootstrap$Bootstrap_Internal_Button$buttonAttributes(buttonOptions),
-				{
-					ctor: '::',
-					_0: _elm_lang$html$Html_Attributes$class('dropdown-toggle'),
-					_1: {
-						ctor: '::',
-						_0: _elm_lang$html$Html_Attributes$type_('button'),
-						_1: {
-							ctor: '::',
-							_0: A2(
-								_elm_lang$html$Html_Events$on,
-								'click',
-								A2(_rundis$elm_bootstrap$Bootstrap_Dropdown$clickHandler, toggleMsg, state)),
-							_1: {ctor: '[]'}
-						}
-					}
-				}),
-			children);
-	});
-var _rundis$elm_bootstrap$Bootstrap_Dropdown$splitToggleButtonPrivate = F3(
-	function (_p36, toggleMsg, state) {
-		var _p37 = _p36;
-		return {
-			ctor: '::',
-			_0: A2(
-				_elm_lang$html$Html$button,
-				_rundis$elm_bootstrap$Bootstrap_Internal_Button$buttonAttributes(_p37.options),
-				_p37.children),
-			_1: {
-				ctor: '::',
-				_0: A2(
-					_elm_lang$html$Html$button,
-					A2(
-						_elm_lang$core$Basics_ops['++'],
-						_rundis$elm_bootstrap$Bootstrap_Internal_Button$buttonAttributes(_p37.togglerOptions),
-						{
-							ctor: '::',
-							_0: _elm_lang$html$Html_Attributes$class('dropdown-toggle'),
-							_1: {
-								ctor: '::',
-								_0: _elm_lang$html$Html_Attributes$class('dropdown-toggle-split'),
-								_1: {
-									ctor: '::',
-									_0: _elm_lang$html$Html_Attributes$type_('button'),
-									_1: {
-										ctor: '::',
-										_0: A2(
-											_elm_lang$html$Html_Events$on,
-											'click',
-											A2(_rundis$elm_bootstrap$Bootstrap_Dropdown$clickHandler, toggleMsg, state)),
-										_1: {ctor: '[]'}
-									}
-								}
-							}
-						}),
-					{ctor: '[]'}),
-				_1: {ctor: '[]'}
-			}
-		};
-	});
-var _rundis$elm_bootstrap$Bootstrap_Dropdown$toggleOpen = F2(
-	function (toMsg, _p38) {
-		var _p39 = _p38;
-		return toMsg(
-			A2(
-				_rundis$elm_bootstrap$Bootstrap_Dropdown$updateStatus,
-				_rundis$elm_bootstrap$Bootstrap_Dropdown$nextStatus(_p39._0.status),
-				_p39));
-	});
-var _rundis$elm_bootstrap$Bootstrap_Dropdown$Attrs = function (a) {
-	return {ctor: 'Attrs', _0: a};
-};
-var _rundis$elm_bootstrap$Bootstrap_Dropdown$attrs = function (attrs) {
-	return _rundis$elm_bootstrap$Bootstrap_Dropdown$Attrs(attrs);
-};
-var _rundis$elm_bootstrap$Bootstrap_Dropdown$MenuAttrs = function (a) {
-	return {ctor: 'MenuAttrs', _0: a};
-};
-var _rundis$elm_bootstrap$Bootstrap_Dropdown$menuAttrs = function (attrs) {
-	return _rundis$elm_bootstrap$Bootstrap_Dropdown$MenuAttrs(attrs);
-};
-var _rundis$elm_bootstrap$Bootstrap_Dropdown$DropToDir = function (a) {
-	return {ctor: 'DropToDir', _0: a};
-};
-var _rundis$elm_bootstrap$Bootstrap_Dropdown$AlignMenuRight = {ctor: 'AlignMenuRight'};
-var _rundis$elm_bootstrap$Bootstrap_Dropdown$alignMenuRight = _rundis$elm_bootstrap$Bootstrap_Dropdown$AlignMenuRight;
-var _rundis$elm_bootstrap$Bootstrap_Dropdown$Dropup = {ctor: 'Dropup'};
-var _rundis$elm_bootstrap$Bootstrap_Dropdown$dropUp = _rundis$elm_bootstrap$Bootstrap_Dropdown$Dropup;
-var _rundis$elm_bootstrap$Bootstrap_Dropdown$Dropright = {ctor: 'Dropright'};
-var _rundis$elm_bootstrap$Bootstrap_Dropdown$dropRight = _rundis$elm_bootstrap$Bootstrap_Dropdown$DropToDir(_rundis$elm_bootstrap$Bootstrap_Dropdown$Dropright);
-var _rundis$elm_bootstrap$Bootstrap_Dropdown$Dropleft = {ctor: 'Dropleft'};
-var _rundis$elm_bootstrap$Bootstrap_Dropdown$dropLeft = _rundis$elm_bootstrap$Bootstrap_Dropdown$DropToDir(_rundis$elm_bootstrap$Bootstrap_Dropdown$Dropleft);
-var _rundis$elm_bootstrap$Bootstrap_Dropdown$DropdownItem = function (a) {
-	return {ctor: 'DropdownItem', _0: a};
-};
-var _rundis$elm_bootstrap$Bootstrap_Dropdown$anchorItem = F2(
-	function (attributes, children) {
-		return _rundis$elm_bootstrap$Bootstrap_Dropdown$DropdownItem(
-			A2(
-				_elm_lang$html$Html$a,
-				A2(
-					_elm_lang$core$Basics_ops['++'],
-					{
-						ctor: '::',
-						_0: _elm_lang$html$Html_Attributes$class('dropdown-item'),
-						_1: {ctor: '[]'}
-					},
-					attributes),
-				children));
-	});
-var _rundis$elm_bootstrap$Bootstrap_Dropdown$buttonItem = F2(
-	function (attributes, children) {
-		return _rundis$elm_bootstrap$Bootstrap_Dropdown$DropdownItem(
-			A2(
-				_elm_lang$html$Html$button,
-				A2(
-					_elm_lang$core$Basics_ops['++'],
-					{
-						ctor: '::',
-						_0: _elm_lang$html$Html_Attributes$type_('button'),
-						_1: {
-							ctor: '::',
-							_0: _elm_lang$html$Html_Attributes$class('dropdown-item'),
-							_1: {ctor: '[]'}
-						}
-					},
-					attributes),
-				children));
-	});
-var _rundis$elm_bootstrap$Bootstrap_Dropdown$divider = _rundis$elm_bootstrap$Bootstrap_Dropdown$DropdownItem(
-	A2(
-		_elm_lang$html$Html$div,
-		{
-			ctor: '::',
-			_0: _elm_lang$html$Html_Attributes$class('dropdown-divider'),
-			_1: {ctor: '[]'}
-		},
-		{ctor: '[]'}));
-var _rundis$elm_bootstrap$Bootstrap_Dropdown$header = function (children) {
-	return _rundis$elm_bootstrap$Bootstrap_Dropdown$DropdownItem(
-		A2(
-			_elm_lang$html$Html$h6,
-			{
-				ctor: '::',
-				_0: _elm_lang$html$Html_Attributes$class('dropdown-header'),
-				_1: {ctor: '[]'}
-			},
-			children));
-};
-var _rundis$elm_bootstrap$Bootstrap_Dropdown$DropdownToggle = function (a) {
-	return {ctor: 'DropdownToggle', _0: a};
-};
-var _rundis$elm_bootstrap$Bootstrap_Dropdown$toggle = F2(
-	function (buttonOptions, children) {
-		return _rundis$elm_bootstrap$Bootstrap_Dropdown$DropdownToggle(
-			A2(_rundis$elm_bootstrap$Bootstrap_Dropdown$togglePrivate, buttonOptions, children));
-	});
-var _rundis$elm_bootstrap$Bootstrap_Dropdown$SplitDropdownToggle = function (a) {
-	return {ctor: 'SplitDropdownToggle', _0: a};
-};
-var _rundis$elm_bootstrap$Bootstrap_Dropdown$splitToggle = function (config) {
-	return _rundis$elm_bootstrap$Bootstrap_Dropdown$SplitDropdownToggle(
-		_rundis$elm_bootstrap$Bootstrap_Dropdown$splitToggleButtonPrivate(config));
-};
 var _rundis$elm_bootstrap$Bootstrap_Utilities_Spacing$py5Xl = _elm_lang$html$Html_Attributes$class('py-xl-5');
 var _rundis$elm_bootstrap$Bootstrap_Utilities_Spacing$py4Xl = _elm_lang$html$Html_Attributes$class('py-xl-4');
 var _rundis$elm_bootstrap$Bootstrap_Utilities_Spacing$py3Xl = _elm_lang$html$Html_Attributes$class('py-xl-3');
@@ -13243,53 +12173,39 @@ var _k_bx$nlp_trainer$TrenuvalochkaLib$renderRelationEntityAnswer = F2(
 		var head = A2(_k_bx$nlp_trainer$TrenuvalochkaLib$getHead, model, entity.head);
 		var els = {
 			ctor: '::',
-			_0: _elm_lang$html$Html$text(
-				A2(
-					_elm_lang$core$Maybe$withDefault,
-					'root',
-					A2(
-						_elm_lang$core$Maybe$map,
-						function (_) {
-							return _.form;
-						},
-						head))),
-			_1: {
-				ctor: '::',
-				_0: _elm_lang$html$Html$text('->'),
-				_1: {
+			_0: A2(
+				_rundis$elm_bootstrap$Bootstrap_Alert$simpleInfo,
+				{ctor: '[]'},
+				{
 					ctor: '::',
-					_0: _elm_lang$html$Html$text(entity.deprel),
-					_1: {
-						ctor: '::',
-						_0: _elm_lang$html$Html$text('->'),
-						_1: {
-							ctor: '::',
-							_0: _elm_lang$html$Html$text(entity.form),
-							_1: {ctor: '[]'}
-						}
-					}
-				}
-			}
+					_0: _elm_lang$html$Html$text(
+						A2(
+							_elm_lang$core$Basics_ops['++'],
+							A2(
+								_elm_lang$core$Maybe$withDefault,
+								'root',
+								A2(
+									_elm_lang$core$Maybe$map,
+									function (_) {
+										return _.form;
+									},
+									head)),
+							A2(
+								_elm_lang$core$Basics_ops['++'],
+								' ⟶ ',
+								A2(
+									_elm_lang$core$Basics_ops['++'],
+									entity.deprel,
+									A2(_elm_lang$core$Basics_ops['++'], ' ⟶ ', entity.form))))),
+					_1: {ctor: '[]'}
+				}),
+			_1: {ctor: '[]'}
 		};
 		return A2(
 			_elm_lang$html$Html$ul,
 			{ctor: '[]'},
 			model.gaveUp ? els : {ctor: '[]'});
 	});
-var _k_bx$nlp_trainer$TrenuvalochkaLib$posOption = function (pos) {
-	return A2(
-		_elm_lang$html$Html$option,
-		{
-			ctor: '::',
-			_0: _elm_lang$html$Html_Attributes$value(pos),
-			_1: {ctor: '[]'}
-		},
-		{
-			ctor: '::',
-			_0: _elm_lang$html$Html$text(pos),
-			_1: {ctor: '[]'}
-		});
-};
 var _k_bx$nlp_trainer$TrenuvalochkaLib$posEmpty = '---';
 var _k_bx$nlp_trainer$TrenuvalochkaLib$posOptions = {
 	ctor: '::',
@@ -13364,6 +12280,32 @@ var _k_bx$nlp_trainer$TrenuvalochkaLib$posOptions = {
 		}
 	}
 };
+var _k_bx$nlp_trainer$TrenuvalochkaLib$posOption = F2(
+	function (mCurrSelection, pos) {
+		var opts = ((_elm_lang$core$Native_Utils.eq(mCurrSelection, _elm_lang$core$Maybe$Nothing) && _elm_lang$core$Native_Utils.eq(pos, _k_bx$nlp_trainer$TrenuvalochkaLib$posEmpty)) || _elm_lang$core$Native_Utils.eq(
+			mCurrSelection,
+			_elm_lang$core$Maybe$Just(pos))) ? {
+			ctor: '::',
+			_0: _elm_lang$html$Html_Attributes$selected(true),
+			_1: {
+				ctor: '::',
+				_0: _elm_lang$html$Html_Attributes$value(pos),
+				_1: {ctor: '[]'}
+			}
+		} : {
+			ctor: '::',
+			_0: _elm_lang$html$Html_Attributes$value(pos),
+			_1: {ctor: '[]'}
+		};
+		return A2(
+			_elm_lang$html$Html$option,
+			opts,
+			{
+				ctor: '::',
+				_0: _elm_lang$html$Html$text(pos),
+				_1: {ctor: '[]'}
+			});
+	});
 var _k_bx$nlp_trainer$TrenuvalochkaLib$subscriptions = function (model) {
 	return _elm_lang$core$Platform_Sub$none;
 };
@@ -13685,7 +12627,11 @@ var _k_bx$nlp_trainer$TrenuvalochkaLib$renderRelationEntityGuess = F2(
 										{
 											ctor: '::',
 											_0: {ctor: '_Tuple2', _0: 'float', _1: 'left'},
-											_1: {ctor: '[]'}
+											_1: {
+												ctor: '::',
+												_0: {ctor: '_Tuple2', _0: 'margin-right', _1: '5px'},
+												_1: {ctor: '[]'}
+											}
 										}),
 									_1: {ctor: '[]'}
 								},
@@ -13695,7 +12641,7 @@ var _k_bx$nlp_trainer$TrenuvalochkaLib$renderRelationEntityGuess = F2(
 										_rundis$elm_bootstrap$Bootstrap_Button$button,
 										{
 											ctor: '::',
-											_0: _rundis$elm_bootstrap$Bootstrap_Button$outlineDark,
+											_0: _rundis$elm_bootstrap$Bootstrap_Button$info,
 											_1: {
 												ctor: '::',
 												_0: _rundis$elm_bootstrap$Bootstrap_Button$attrs(
@@ -13770,7 +12716,7 @@ var _k_bx$nlp_trainer$TrenuvalochkaLib$renderRelations = function (model) {
 		_rundis$elm_bootstrap$Bootstrap_Button$button,
 		{
 			ctor: '::',
-			_0: _rundis$elm_bootstrap$Bootstrap_Button$outlineDark,
+			_0: _rundis$elm_bootstrap$Bootstrap_Button$info,
 			_1: {
 				ctor: '::',
 				_0: _rundis$elm_bootstrap$Bootstrap_Button$attrs(
@@ -13807,13 +12753,20 @@ var _k_bx$nlp_trainer$TrenuvalochkaLib$SetPos = F2(
 	function (a, b) {
 		return {ctor: 'SetPos', _0: a, _1: b};
 	});
-var _k_bx$nlp_trainer$TrenuvalochkaLib$renderEntity = F2(
-	function (gaveUp, _p2) {
+var _k_bx$nlp_trainer$TrenuvalochkaLib$renderEntity = F3(
+	function (model, gaveUp, _p2) {
 		var _p3 = _p2;
 		var _p5 = _p3._0;
 		var answer = {
 			ctor: '::',
-			_0: _elm_lang$html$Html$text(_p5.upos),
+			_0: A2(
+				_rundis$elm_bootstrap$Bootstrap_Alert$simpleInfo,
+				{ctor: '[]'},
+				{
+					ctor: '::',
+					_0: _elm_lang$html$Html$text(_p5.upos),
+					_1: {ctor: '[]'}
+				}),
 			_1: {ctor: '[]'}
 		};
 		var message = function () {
@@ -13871,7 +12824,11 @@ var _k_bx$nlp_trainer$TrenuvalochkaLib$renderEntity = F2(
 										_elm_lang$html$Html_Events$targetValue)),
 								_1: {ctor: '[]'}
 							},
-							A2(_elm_lang$core$List$map, _k_bx$nlp_trainer$TrenuvalochkaLib$posOption, _k_bx$nlp_trainer$TrenuvalochkaLib$posOptions)),
+							A2(
+								_elm_lang$core$List$map,
+								_k_bx$nlp_trainer$TrenuvalochkaLib$posOption(
+									A2(_elm_lang$core$Dict$get, _p5.id, model.posSelections)),
+								_k_bx$nlp_trainer$TrenuvalochkaLib$posOptions)),
 						_1: {ctor: '[]'}
 					}),
 				_1: {
@@ -13917,7 +12874,11 @@ var _k_bx$nlp_trainer$TrenuvalochkaLib$update = F2(
 					ctor: '_Tuple2',
 					_0: _elm_lang$core$Native_Utils.update(
 						model,
-						{gaveUp: false}),
+						{
+							gaveUp: false,
+							relSelections: {ctor: '[]'},
+							posSelections: _elm_lang$core$Dict$empty
+						}),
 					_1: _k_bx$nlp_trainer$TrenuvalochkaLib$genRand(model)
 				};
 			case 'NewSentence':
@@ -14016,7 +12977,7 @@ var _k_bx$nlp_trainer$TrenuvalochkaLib$view = function (model) {
 												_rundis$elm_bootstrap$Bootstrap_Button$button,
 												{
 													ctor: '::',
-													_0: _rundis$elm_bootstrap$Bootstrap_Button$outlineDark,
+													_0: _rundis$elm_bootstrap$Bootstrap_Button$info,
 													_1: {
 														ctor: '::',
 														_0: _rundis$elm_bootstrap$Bootstrap_Button$attrs(
@@ -14043,7 +13004,7 @@ var _k_bx$nlp_trainer$TrenuvalochkaLib$view = function (model) {
 													_rundis$elm_bootstrap$Bootstrap_Button$button,
 													{
 														ctor: '::',
-														_0: _rundis$elm_bootstrap$Bootstrap_Button$outlineDark,
+														_0: _rundis$elm_bootstrap$Bootstrap_Button$info,
 														_1: {
 															ctor: '::',
 															_0: _rundis$elm_bootstrap$Bootstrap_Button$attrs(
@@ -14096,7 +13057,7 @@ var _k_bx$nlp_trainer$TrenuvalochkaLib$view = function (model) {
 																{ctor: '[]'},
 																A2(
 																	_elm_lang$core$List$map,
-																	_k_bx$nlp_trainer$TrenuvalochkaLib$renderEntity(model.gaveUp),
+																	A2(_k_bx$nlp_trainer$TrenuvalochkaLib$renderEntity, model, model.gaveUp),
 																	A2(
 																		_elm_lang$core$List$map,
 																		function (x) {

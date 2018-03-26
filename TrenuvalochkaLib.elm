@@ -1,13 +1,13 @@
 module TrenuvalochkaLib exposing (..)
 
 -- MODEL
+--import Bootstrap.Dropdown as Dropdown
 
 import Array exposing (Array)
-import Bootstrap.CDN as CDN
 import Bootstrap.Alert as Alert
-import Bootstrap.Grid as Grid
 import Bootstrap.Button as Button
-import Bootstrap.Dropdown as Dropdown
+import Bootstrap.CDN as CDN
+import Bootstrap.Grid as Grid
 import Bootstrap.Utilities.Spacing as Spacing
 import Dict exposing (Dict)
 import Html exposing (..)
@@ -178,7 +178,7 @@ update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
         Roll ->
-            ( { model | gaveUp = False }, genRand model )
+            ( { model | gaveUp = False, relSelections = [], posSelections = Dict.empty }, genRand model )
 
         NewSentence sentenceId ->
             ( newSent sentenceId model, Cmd.none )
@@ -246,13 +246,20 @@ posOptions =
     ]
 
 
-posOption : String -> Html Msg
-posOption pos =
-    option [ value pos ] [ text pos ]
+posOption : Maybe String -> String -> Html Msg
+posOption mCurrSelection pos =
+    let
+        opts =
+            if (mCurrSelection == Nothing && pos == posEmpty) || mCurrSelection == Just pos then
+                [ selected True, value pos ]
+            else
+                [ value pos ]
+    in
+    option opts [ text pos ]
 
 
-renderEntity : Bool -> ( Entity, Maybe String ) -> Html Msg
-renderEntity gaveUp ( entity, mPos ) =
+renderEntity : Model -> Bool -> ( Entity, Maybe String ) -> Html Msg
+renderEntity model gaveUp ( entity, mPos ) =
     let
         message =
             case mPos of
@@ -261,18 +268,19 @@ renderEntity gaveUp ( entity, mPos ) =
 
                 Just p ->
                     if p == entity.upos then
-                        Alert.simpleSuccess [] [text "yup"]
+                        Alert.simpleSuccess [] [ text "yup" ]
                     else
-                        Alert.simpleDanger [] [text "nada"]
+                        Alert.simpleDanger [] [ text "nada" ]
 
         divElems =
-            [ div [] [text entity.form]
-            , div [] [select [ on "change" (Json.map (SetPos entity.id) targetValue) ] (List.map posOption posOptions)]
+            [ div [] [ text entity.form ]
+            , div [] [ select [ on "change" (Json.map (SetPos entity.id) targetValue) ] (List.map (posOption (Dict.get entity.id model.posSelections)) posOptions) ]
             , message
             ]
 
         answer =
-            [ text entity.upos ]
+            [ Alert.simpleInfo [] [ text entity.upos ]
+            ]
 
         divElems2 =
             if gaveUp then
@@ -280,7 +288,7 @@ renderEntity gaveUp ( entity, mPos ) =
             else
                 divElems
     in
-    div [style[("float", "left")]] divElems2
+    div [ style [ ( "float", "left" ) ] ] divElems2
 
 
 getHead : Model -> Int -> Maybe Entity
@@ -295,11 +303,15 @@ renderRelationEntityAnswer model entity =
             getHead model entity.head
 
         els =
-            [ text (withDefault "root" (Maybe.map .form head))
-            , text "->"
-            , text entity.deprel
-            , text "->"
-            , text entity.form
+            [ Alert.simpleInfo []
+                [ text
+                    (withDefault "root" (Maybe.map .form head)
+                        ++ " ⟶ "
+                        ++ entity.deprel
+                        ++ " ⟶ "
+                        ++ entity.form
+                    )
+                ]
             ]
     in
     ul []
@@ -413,18 +425,18 @@ renderRelationEntityGuess model relSelection =
         message =
             case findRel model.currSent relSelection of
                 False ->
-                    Alert.simpleDanger [] [text "nada"]
+                    Alert.simpleDanger [] [ text "nada" ]
 
                 True ->
-                    Alert.simpleSuccess [] [text "yeah"]
+                    Alert.simpleSuccess [] [ text "yeah" ]
     in
     ul []
-        [ div [style [("float", "left")]] [renderWordSelection SetFromWord relSelection (findFromWord model relSelection.from) model]
-        , div [style [("float", "left")]] [select [ on "change" (Json.map (SetRel relSelection.id) targetValue) ] (List.map (relOption relSelection.rel) relOptions)]
-        , div [style [("float", "left")]] [renderWordSelection SetToWord relSelection (findToWord model relSelection.to) model]
-        , div [style [("float", "left")]] [Button.button [ Button.outlineDark, Button.attrs [ onClick (RemoveRelationGuess relSelection.id), Spacing.ml1 ] ] [ text "-" ]]
-        , div [style [("float", "left")]] [message]
-        , div [style [("clear", "both")]] []
+        [ div [ style [ ( "float", "left" ) ] ] [ renderWordSelection SetFromWord relSelection (findFromWord model relSelection.from) model ]
+        , div [ style [ ( "float", "left" ) ] ] [ select [ on "change" (Json.map (SetRel relSelection.id) targetValue) ] (List.map (relOption relSelection.rel) relOptions) ]
+        , div [ style [ ( "float", "left" ) ] ] [ renderWordSelection SetToWord relSelection (findToWord model relSelection.to) model ]
+        , div [ style [ ( "float", "left" ), ( "margin-right", "5px" ) ] ] [ Button.button [ Button.info, Button.attrs [ onClick (RemoveRelationGuess relSelection.id), Spacing.ml1 ] ] [ text "-" ] ]
+        , div [ style [ ( "float", "left" ) ] ] [ message ]
+        , div [ style [ ( "clear", "both" ) ] ] []
         ]
 
 
@@ -435,7 +447,7 @@ renderRelations model =
             List.map (renderRelationEntityAnswer model) model.currSent
 
         addNew =
-            Button.button [ Button.outlineDark, Button.attrs [ onClick AddRelationGuess, Spacing.ml1 ] ] [ text "+" ]
+            Button.button [ Button.info, Button.attrs [ onClick AddRelationGuess, Spacing.ml1 ] ] [ text "+" ]
 
         guesses =
             List.map (renderRelationEntityGuess model) model.relSelections
@@ -452,13 +464,13 @@ view model =
                 [ div
                     []
                     [ h1 [] [ text "Welcome to Trenuvalochka" ]
-                    , Button.button [ Button.outlineDark, Button.attrs [ onClick Roll, Spacing.ml1 ] ] [ text "Roll" ]
-                    , Button.button [ Button.outlineDark, Button.attrs [ onClick GiveUp, Spacing.ml1 ] ] [ text "I Give Up" ]
-                    , div [style [("margin-bottom", "10px")]] []
-                    , div [] [text "Please, select the correct POS tags:"]
-                    , ul [] (List.map (renderEntity model.gaveUp) (List.map (\x -> ( x, Dict.get x.id model.posSelections )) model.currSent))
-                    , div [style [("clear", "both"), ("margin-bottom", "20px")]] []
-                    , div [] [text "Build a correct entity relations graph:"]
+                    , Button.button [ Button.info, Button.attrs [ onClick Roll, Spacing.ml1 ] ] [ text "Roll" ]
+                    , Button.button [ Button.info, Button.attrs [ onClick GiveUp, Spacing.ml1 ] ] [ text "I Give Up" ]
+                    , div [ style [ ( "margin-bottom", "10px" ) ] ] []
+                    , div [] [ text "Please, select the correct POS tags:" ]
+                    , ul [] (List.map (renderEntity model model.gaveUp) (List.map (\x -> ( x, Dict.get x.id model.posSelections )) model.currSent))
+                    , div [ style [ ( "clear", "both" ), ( "margin-bottom", "20px" ) ] ] []
+                    , div [] [ text "Build a correct entity relations graph:" ]
                     , renderRelations model
                     ]
                 ]
