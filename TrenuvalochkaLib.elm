@@ -3,6 +3,12 @@ module TrenuvalochkaLib exposing (..)
 -- MODEL
 
 import Array exposing (Array)
+import Bootstrap.CDN as CDN
+import Bootstrap.Alert as Alert
+import Bootstrap.Grid as Grid
+import Bootstrap.Button as Button
+import Bootstrap.Dropdown as Dropdown
+import Bootstrap.Utilities.Spacing as Spacing
 import Dict exposing (Dict)
 import Html exposing (..)
 import Html.Attributes exposing (..)
@@ -248,21 +254,21 @@ posOption pos =
 renderEntity : Bool -> ( Entity, Maybe String ) -> Html Msg
 renderEntity gaveUp ( entity, mPos ) =
     let
-        ( color, message ) =
+        message =
             case mPos of
                 Nothing ->
-                    ( "grey", "" )
+                    div [] []
 
                 Just p ->
                     if p == entity.upos then
-                        ( "green", "yup" )
+                        Alert.simpleSuccess [] [text "yup"]
                     else
-                        ( "red", "nope" )
+                        Alert.simpleDanger [] [text "nada"]
 
         divElems =
-            [ text entity.form
-            , select [ on "change" (Json.map (SetPos entity.id) targetValue) ] (List.map posOption posOptions)
-            , div [ style [ ( "color", color ) ] ] [ text message ]
+            [ div [] [text entity.form]
+            , div [] [select [ on "change" (Json.map (SetPos entity.id) targetValue) ] (List.map posOption posOptions)]
+            , message
             ]
 
         answer =
@@ -274,7 +280,7 @@ renderEntity gaveUp ( entity, mPos ) =
             else
                 divElems
     in
-    div [] divElems2
+    div [style[("float", "left")]] divElems2
 
 
 getHead : Model -> Int -> Maybe Entity
@@ -404,20 +410,21 @@ findToWord model toId =
 renderRelationEntityGuess : Model -> RelSelection -> Html Msg
 renderRelationEntityGuess model relSelection =
     let
-        ( color, message ) =
+        message =
             case findRel model.currSent relSelection of
                 False ->
-                    ( "red", "nada" )
+                    Alert.simpleDanger [] [text "nada"]
 
                 True ->
-                    ( "green", "aha" )
+                    Alert.simpleSuccess [] [text "yeah"]
     in
     ul []
-        [ renderWordSelection SetFromWord relSelection (findFromWord model relSelection.from) model
-        , select [ on "change" (Json.map (SetRel relSelection.id) targetValue) ] (List.map (relOption relSelection.rel) relOptions)
-        , renderWordSelection SetToWord relSelection (findToWord model relSelection.to) model
-        , button [ onClick (RemoveRelationGuess relSelection.id) ] [ text "-" ]
-        , span [ style [ ( "color", color ) ] ] [ text message ]
+        [ div [style [("float", "left")]] [renderWordSelection SetFromWord relSelection (findFromWord model relSelection.from) model]
+        , div [style [("float", "left")]] [select [ on "change" (Json.map (SetRel relSelection.id) targetValue) ] (List.map (relOption relSelection.rel) relOptions)]
+        , div [style [("float", "left")]] [renderWordSelection SetToWord relSelection (findToWord model relSelection.to) model]
+        , div [style [("float", "left")]] [Button.button [ Button.outlineDark, Button.attrs [ onClick (RemoveRelationGuess relSelection.id), Spacing.ml1 ] ] [ text "-" ]]
+        , div [style [("float", "left")]] [message]
+        , div [style [("clear", "both")]] []
         ]
 
 
@@ -428,7 +435,7 @@ renderRelations model =
             List.map (renderRelationEntityAnswer model) model.currSent
 
         addNew =
-            button [ onClick AddRelationGuess ] [ text "+" ]
+            Button.button [ Button.outlineDark, Button.attrs [ onClick AddRelationGuess, Spacing.ml1 ] ] [ text "+" ]
 
         guesses =
             List.map (renderRelationEntityGuess model) model.relSelections
@@ -438,12 +445,24 @@ renderRelations model =
 
 view : Model -> Html Msg
 view model =
-    div []
-        [ h1 [] [ text "Welcome to Trenuvalochka" ]
-        , button [ onClick Roll ] [ text "Roll" ]
-        , button [ onClick GiveUp ] [ text "I give up" ]
-        , ul [] (List.map (renderEntity model.gaveUp) (List.map (\x -> ( x, Dict.get x.id model.posSelections )) model.currSent))
-        , renderRelations model
+    Grid.container []
+        [ CDN.stylesheet
+        , Grid.row []
+            [ Grid.col []
+                [ div
+                    []
+                    [ h1 [] [ text "Welcome to Trenuvalochka" ]
+                    , Button.button [ Button.outlineDark, Button.attrs [ onClick Roll, Spacing.ml1 ] ] [ text "Roll" ]
+                    , Button.button [ Button.outlineDark, Button.attrs [ onClick GiveUp, Spacing.ml1 ] ] [ text "I Give Up" ]
+                    , div [style [("margin-bottom", "10px")]] []
+                    , div [] [text "Please, select the correct POS tags:"]
+                    , ul [] (List.map (renderEntity model.gaveUp) (List.map (\x -> ( x, Dict.get x.id model.posSelections )) model.currSent))
+                    , div [style [("clear", "both"), ("margin-bottom", "20px")]] []
+                    , div [] [text "Build a correct entity relations graph:"]
+                    , renderRelations model
+                    ]
+                ]
+            ]
         ]
 
 
