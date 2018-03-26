@@ -87,7 +87,7 @@ getWordId word model =
     if word == "(root)" then
         Just 0
     else
-        List.head (List.map .id (List.filter (\x -> x.form == word) model.currSent))
+        List.head (List.map .id (List.filter (\x -> String.toLower x.form == String.toLower word) model.currSent))
 
 
 setFromWordRel : Int -> Int -> RelSelection -> RelSelection
@@ -270,7 +270,7 @@ renderEntity model gaveUp ( entity, mPos ) =
                     if p == entity.upos then
                         Alert.simpleSuccess [] [ text "yup" ]
                     else
-                        Alert.simpleDanger [] [ text "nada" ]
+                        Alert.simpleDanger [] [ text "nope" ]
 
         divElems =
             [ div [] [ text entity.form ]
@@ -404,7 +404,7 @@ findRel : Sentence -> RelSelection -> Bool
 findRel sent rs =
     let
         f x =
-            x.head == rs.from && x.id == rs.to && x.deprel == rs.rel
+            x.head == rs.from && x.id == rs.to && String.toLower x.deprel == String.toLower rs.rel
     in
     Maybe.withDefault False (Maybe.map (const True) (List.head (List.filter f sent)))
 

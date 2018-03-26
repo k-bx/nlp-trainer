@@ -35,12 +35,14 @@ genElmEntities Document {..} =
          tshowt (T.pack (fromMaybe "" _xpostag)) <>
          " \"\" " <>
          fromMaybe "0" (showIndex <$> _dephead) <>
-         " \"\" [] \"\"")
+         " " <> showDepRel _deprel <> " [] \"\"")
     renderToken _ = Nothing
     -- TODO: implement non-IntIndex cases properly (I'm lazy, needs refactoring elm code)
     showIndex :: Index -> Text
     showIndex (IntIndex i) = tshow i
     showIndex _ = "0"
+    showDepRel Nothing = tshowt ""
+    showDepRel (Just (dep, subt)) = tshowt (tshow dep)
 
 main :: IO ()
 main = do
